@@ -1,5 +1,9 @@
 const Pagination = () => {
-    return <h1>Pagination</h1>
+    return (<div className='container'>
+        <div className='prev'>-</div>
+        <div className='step'>1</div>
+        <div className='next'>+</div>
+    </div>)
 }
 
 export default Pagination

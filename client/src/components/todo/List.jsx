@@ -1,5 +1,8 @@
+import Item from './Item'
 const List = () => {
-    return <h1>List</h1>
+    return (<div className='container'>
+        <Item text='Купить хлеб' date='10.07.2022'/>
+    </div>)
 }
 
 export default List

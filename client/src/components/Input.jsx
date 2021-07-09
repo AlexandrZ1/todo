@@ -1,5 +1,5 @@
 const Input = () => {
-    return <h1>Input</h1>
+    return <input type='text' size='100'/>
 }
 
 export default Input
