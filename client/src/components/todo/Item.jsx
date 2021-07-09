@@ -1,9 +1,11 @@
+import style from './Item.module.scss'
+
 const Item = (props) => {
-    return (<div className='Item'>
-        <div className='btn_done'>+</div>
-        <div className='text'>{props.text}</div>
-        <div className='date'>{props.date}</div>
-        <div className='btn_delete'>-</div>
+    return (<div className={style.container}>
+        <div className={style.btn_done}>&#10003;</div>
+        <div className={style.text}>{props.text}</div>
+        <div className={style.date}>{props.date}</div>
+        <div className={style.btn_delete}>&#9421;</div>
     </div>)
 }
 

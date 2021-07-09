@@ -4,6 +4,7 @@
     display: flex;
     margin: 10px 0;
     width: 80%;
+    height: 30px;
     justify-content: space-between;
     & .buttons {
         display: flex;
@@ -11,11 +12,11 @@
     & .sorting_order {
         display: flex;
         .btn{
-            color: $gray-bright
+            color: $green-bright;
         }
         & p {
             margin-right: 5px;
-            color: $green-bright;
+            color: $white;
         }
     }
 }

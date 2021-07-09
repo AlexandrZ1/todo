@@ -1,0 +1,26 @@
+@import './colors.scss';
+
+.container {
+    display: flex;
+    border: solid 2px $green-bright;
+    border-radius: 20px;
+    background: $gray-dim;
+    height: 30px;
+    margin: 10px 0;
+    & .prev, & .next {
+        font-weight: 900;
+        color: $green-bright;
+        margin: 0 5px;
+        line-height: normal;
+    }
+    & .step {
+        font-weight: 900;
+        color: $white;
+        margin: 0 5px;
+        border-left: 2px solid $green-bright;
+        border-right: 2px solid $green-bright;
+        line-height: 26px;
+        width: 30px;
+        text-align: center;
+    }
+}
