@@ -1,0 +1,21 @@
+@import "../colors.scss";
+
+.container {
+    display: flex;
+    margin: 10px 0;
+    width: 80%;
+    justify-content: space-between;
+    & .buttons {
+        display: flex;
+    }
+    & .sorting_order {
+        display: flex;
+        .btn{
+            color: $gray-bright
+        }
+        & p {
+            margin-right: 5px;
+            color: $green-bright;
+        }
+    }
+}

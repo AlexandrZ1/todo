@@ -1,3 +1,5 @@
+@import './components/colors.scss';
+
 /* Указываем box sizing */
 *,
 *::before,
@@ -75,4 +77,15 @@ select {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+*{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $gray-bright;
 }
