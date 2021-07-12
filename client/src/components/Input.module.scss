@@ -1,24 +1,25 @@
 @import "./colors.scss";
 
 .input {
-    width: 75%;
-    border-radius: 20px;
-    height: 30px;
+    width: 55%;
+    border-radius: 10px;
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: solid 2px $green-bright;
-    background: $gray-bright;
-    margin: 10px 0;
+    border: solid 2px $gray-bright;
+    background: white;
+    margin: 20px 0 10px 0;
+    font-weight: 400;
     input {
         outline: none;
-        height: 20px;
-        width: 90%;
+        height: 14px;
+        width: 95%;
         background: none;
         border: none;
-        color: $white;
+        color: $dark;
         &::-webkit-input-placeholder {
-            color: $dark;
+            color: $gray-bright;
         }
     }
 }

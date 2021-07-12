@@ -2,25 +2,41 @@
 
 .container {
     display: flex;
-    border: solid 2px $green-bright;
-    border-radius: 20px;
-    background: $gray-dim;
-    height: 30px;
-    margin: 10px 0;
+    height: 40px;
     & .prev, & .next {
-        font-weight: 900;
-        color: $green-bright;
-        margin: 0 5px;
-        line-height: normal;
+        margin: 0 10px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        cursor: pointer;
     }
-    & .step {
-        font-weight: 900;
-        color: $white;
-        margin: 0 5px;
-        border-left: 2px solid $green-bright;
-        border-right: 2px solid $green-bright;
-        line-height: 26px;
-        width: 30px;
-        text-align: center;
+    & .prev{
+        background: url(../assets/img/Union_left.svg) no-repeat center $blue;
+    }
+    & .next{
+        background: url(.././assets/img/Union_right.svg) no-repeat center $blue;
+    }
+    & .steps {
+        border: solid 2px $gray-bright;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        & .number{
+            cursor: pointer;
+            height: 30px;
+            width: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            &.selected{
+                background: $blue;
+            }
+        }
+        & .number:hover{
+            border: 2px solid $blue;
+        }
     }
 }

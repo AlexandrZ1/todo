@@ -3,20 +3,30 @@
 .container {
     display: flex;
     margin: 10px 0;
-    width: 80%;
-    height: 30px;
+    width: 70%;
+    height: 40px;
     justify-content: space-between;
+    margin-bottom: 20px;
     & .buttons {
         display: flex;
     }
     & .sorting_order {
         display: flex;
+        cursor:default;
         .btn{
-            color: $green-bright;
+            width: 22px;
+            height: 18px;
+            margin: auto 0;
+            cursor: pointer;
+            &.down{
+                background: url(../../assets/img/Vector_down.svg) no-repeat center;
+            }
+            &.up{
+                background: url(../../assets/img/Vector_up.svg) no-repeat center;
+            }
         }
         & p {
-            margin-right: 5px;
-            color: $white;
+            margin: auto 15px;
         }
     }
 }
