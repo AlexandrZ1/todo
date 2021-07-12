@@ -11,11 +11,10 @@ const Input = (props) => {
 
   const handleEnterPress = (event, value) => {
     if (event.charCode === 13 && isEmpty === false) {
-      props.setTodos([
-        ...props.todos,
-        { done: false, text: value, date: Date.now() },
-      ]);
-      console.log(props.todos);
+      props.setTodos(
+        props.todos.concat({ done: false, text: value, date: new Date() })
+      );
+      setValue('');
     }
   };
 

@@ -1,14 +1,24 @@
-import Item from './Item'
-import style from './List.module.scss'
+import Item from "./Item";
+import style from "./List.module.scss";
 
-const List = () => {
-    return (<div className={style.container}>
-        <Item text='Купить хлеб' date='10.07.21'/>
-        <Item text='Купить хлеб' date='10.07.21'/>
-        <Item text='Купить хлеб' date='10.07.21'/>
-        <Item text='Купить хлеб' date='10.07.21'/>
-        <Item text='Купить хлеб' date='10.07.21'/>
-    </div>)
-}
+const List = (props) => {
+  return (
+    <div className={style.container}>
+      {props.todos.map((item, i) => (
+        <Item
+          text={item.text}
+          date={item.date.toLocaleDateString("ru-RU", {
+            year: "2-digit",
+            month: "2-digit",
+            day: "2-digit",
+          })}
+          todos={props.todos}
+          setTodos={props.setTodos}
+          index={i}
+        />
+      ))}
+    </div>
+  );
+};
 
-export default List
+export default List;
