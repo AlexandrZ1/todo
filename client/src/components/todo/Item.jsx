@@ -4,7 +4,6 @@ import style from "./Item.module.scss";
 
 const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
   const ref = useRef(null);
-  const [key, setKey] = useState(false);
   const [value, setValue] = useState(todo.text);
   const { inputValid } = useValidation(value, "isEmpty");
   const [visibleEdit, setVisibleEdit] = useState(false);
@@ -17,43 +16,39 @@ const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
     });
 
   useEffect(() => {
-    if (key) {
-      ref.current.blur();
-      console.log(1);
-      setKey(false);
-    }
-  }, [key]);
+    if (visibleEdit) ref.current.focus();
+  }, [visibleEdit]);
 
   const handleChange = (e) => {
     setValue(e.target.value);
   };
 
   const handleBlur = () => {
-    if (!key) {
+    if (visibleEdit) {
       ref.current.focus();
     } else {
       ref.current.blur();
-    }
-  };
-
-  const handleEdit = (event) => {
-    if (inputValid) {
-      if (event.keyCode === 13) {
-        setTodos((prevState) =>
-          prevState.map((item) =>
-            item.id === todo.id ? (item.text = value) && item : item
-          )
-        );
-        setKey(true);
-      }
-      if (event.keyCode === 27) {
-        setKey(true);
-      }
+      setVisibleEdit(false);
     }
   };
 
   const handleSwitchEdit = () => {
-    visibleEdit ? setVisibleEdit(false) : setVisibleEdit(true);
+    setVisibleEdit(true);
+  };
+
+  const handleEdit = (event) => {
+    if (inputValid && event.keyCode === 13) {
+      setTodos((prevState) =>
+        prevState.map((item) =>
+          item.id === todo.id ? (item.text = value) && item : item
+        )
+      );
+      setVisibleEdit(false);
+    }
+    if (event.keyCode === 27) {
+      setValue(todo.text);
+      setVisibleEdit(false);
+    }
   };
 
   return (
@@ -72,10 +67,13 @@ const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
             onChange={(e) => handleChange(e)}
             onKeyDown={(e) => handleEdit(e)}
             onBlur={() => handleBlur()}
+            onClick={() => handleSwitchEdit()}
           />
         </div>
       ) : (
-        <div className={style.text}>{todo.text}</div>
+        <div className={style.text} onClick={() => handleSwitchEdit()}>
+          {todo.text}
+        </div>
       )}
 
       <div className={style.date}>{getDate()}</div>
