@@ -1,7 +1,7 @@
 import Item from "./Item";
 import style from "./List.module.scss";
 
-const List = ({ todos, setTodos, indexP, setIndexP }) => {
+const List = ({ todos, setTodos, currentPage }) => {
   const handleDone = (setTodos, todo) => {
     if (!todo.done) {
       setTodos((prevState) =>
@@ -29,25 +29,21 @@ const List = ({ todos, setTodos, indexP, setIndexP }) => {
   const handleDelete = (setTodos, todo) => {
     setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
   };
-
+  console.log(currentPage);
   return (
     <div className={style.container}>
       {todos
         .filter((item) => item.visible)
-        .map((item, i) => {
-          console.log(i,indexP,todos);
-          if (true) {
-            return (
-              <Item
-                key={item.id}
-                todo={item}
-                setTodos={setTodos}
-                handleDelete={handleDelete}
-                handleDone={handleDone}
-              />
-            );
-          }
-        })}
+        .slice((currentPage - 1) * 5, currentPage * 5)
+        .map((item) => (
+          <Item
+            key={item.id}
+            todo={item}
+            setTodos={setTodos}
+            handleDelete={handleDelete}
+            handleDone={handleDone}
+          />
+        ))}
     </div>
   );
 };
