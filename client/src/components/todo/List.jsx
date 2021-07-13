@@ -1,32 +1,53 @@
 import Item from "./Item";
 import style from "./List.module.scss";
 
-const List = ( {todos, setTodos})=> {
-
+const List = ({ todos, setTodos, indexP, setIndexP }) => {
   const handleDone = (setTodos, todo) => {
     if (!todo.done) {
       setTodos((prevState) =>
-      prevState.map((item) =>
-        item.id === todo.id ? (item.done = true)&&item : item
-      ))
+        prevState.map((item) => {
+          if (item.id === todo.id) {
+            item.done = true;
+            return item;
+          }
+          return item;
+        })
+      );
+    } else {
+      setTodos((prevState) =>
+        prevState.map((item) => {
+          if (item.id === todo.id) {
+            item.done = false;
+            return item;
+          }
+          return item;
+        })
+      );
     }
   };
 
   const handleDelete = (setTodos, todo) => {
-    setTodos((prevState)=>prevState.filter((item, i) => item.id !==todo.id));
+    setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
   };
 
   return (
     <div className={style.container}>
-      {todos.map((item) => (
-        <Item
-          key={item.id}
-          todo={item}
-          setTodos={setTodos}
-          handleDelete={handleDelete}
-          handleDone={handleDone}
-        />
-      ))}
+      {todos
+        .filter((item) => item.visible)
+        .map((item, i) => {
+          console.log(i,indexP,todos);
+          if (true) {
+            return (
+              <Item
+                key={item.id}
+                todo={item}
+                setTodos={setTodos}
+                handleDelete={handleDelete}
+                handleDone={handleDone}
+              />
+            );
+          }
+        })}
     </div>
   );
 };

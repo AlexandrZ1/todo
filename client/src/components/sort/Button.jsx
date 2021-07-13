@@ -1,7 +1,15 @@
-import style from './Button.module.scss'
+import classNames from "classnames";
+import style from "./Button.module.scss";
 
-const Button = ({text}) => {
-    return (<div className={style.btn}><p>{text}</p></div>)
-}
+const Button = ({ text, active, handleClick }) => {
+  return (
+    <div
+      className={classNames(style.btn, active ? style.active : "")}
+      onClick={() => handleClick()}
+    >
+      <p>{text}</p>
+    </div>
+  );
+};
 
-export default Button
+export default Button;
