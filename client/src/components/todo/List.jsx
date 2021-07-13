@@ -1,20 +1,30 @@
 import Item from "./Item";
 import style from "./List.module.scss";
 
-const List = (props) => {
+const List = ( {todos, setTodos})=> {
+
+  const handleDone = (setTodos, todo) => {
+    if (!todo.done) {
+      setTodos((prevState) =>
+      prevState.map((item) =>
+        item.id === todo.id ? (item.done = true)&&item : item
+      ))
+    }
+  };
+
+  const handleDelete = (setTodos, todo) => {
+    setTodos((prevState)=>prevState.filter((item, i) => item.id !==todo.id));
+  };
+
   return (
     <div className={style.container}>
-      {props.todos.map((item, i) => (
+      {todos.map((item) => (
         <Item
-          text={item.text}
-          date={item.date.toLocaleDateString("ru-RU", {
-            year: "2-digit",
-            month: "2-digit",
-            day: "2-digit",
-          })}
-          todos={props.todos}
-          setTodos={props.setTodos}
-          index={i}
+          key={item.id}
+          todo={item}
+          setTodos={setTodos}
+          handleDelete={handleDelete}
+          handleDone={handleDone}
         />
       ))}
     </div>

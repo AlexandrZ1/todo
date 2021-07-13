@@ -10,7 +10,7 @@ const Main = () => {
   return (
     <div className={style.main}>
       <h1>ToDo</h1>
-      <Input todos={todos} setTodos={setTodos} />
+      <Input setTodos={setTodos} />
       <Sort todos={todos} setTodos={setTodos} />
       <List todos={todos} setTodos={setTodos} />
       <Pagination todos={todos} setTodos={setTodos} />

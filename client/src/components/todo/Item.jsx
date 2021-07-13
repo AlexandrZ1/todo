@@ -1,42 +1,87 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useValidation } from "../../hooks/validation.hook";
 import style from "./Item.module.scss";
 
-const Item = (props) => {
-    const [value, setValue] = useState("");
-    const { isEmpty } = useValidation(value, "isEmpty");
-    const handleChange = (e) => {
+const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
+  const ref = useRef(null);
+  const [key, setKey] = useState(false);
+  const [value, setValue] = useState(todo.text);
+  const { inputValid } = useValidation(value, "isEmpty");
+  const [visibleEdit, setVisibleEdit] = useState(false);
+
+  const getDate = () =>
+    new Date(todo.date).toLocaleDateString("ru-RU", {
+      year: "2-digit",
+      month: "2-digit",
+      day: "2-digit",
+    });
+
+  useEffect(() => {
+    if (key) {
+      ref.current.blur();
+      console.log(1);
+      setKey(false);
+    }
+  }, [key]);
+
+  const handleChange = (e) => {
     setValue(e.target.value);
   };
-  
 
-  const handleDone = (setTodos, index, todos) => {
-    if (!todos[index].done) {
-      setTodos(
-        todos.map((item, i) =>
-          i !== index ? item : { done: true, text: item.text, date: item.date }
-        )
-      );
+  const handleBlur = () => {
+    if (!key) {
+      ref.current.focus();
+    } else {
+      ref.current.blur();
     }
   };
 
-  const handleDelete = (setTodos, index, todos) => {
-    setTodos(todos.filter((todo) => todo !== todos[index]));
+  const handleEdit = (event) => {
+    if (inputValid) {
+      if (event.keyCode === 13) {
+        setTodos((prevState) =>
+          prevState.map((item) =>
+            item.id === todo.id ? (item.text = value) && item : item
+          )
+        );
+        setKey(true);
+      }
+      if (event.keyCode === 27) {
+        setKey(true);
+      }
+    }
+  };
+
+  const handleSwitchEdit = () => {
+    visibleEdit ? setVisibleEdit(false) : setVisibleEdit(true);
   };
 
   return (
     <div className={style.container}>
       <div
-        className={
-          props.todos[props.index].done ? style.btn_done : style.btn_not_done
-        }
-        onClick={() => handleDone(props.setTodos, props.index, props.todos)}
+        className={todo.done ? style.btn_done : style.btn_not_done}
+        onClick={() => handleDone(setTodos, todo)}
       ></div>
-      <div className={style.text}>{props.text}</div>
-      <div className={style.date}>{props.date}</div>
+      {visibleEdit ? (
+        <div className={style.text}>
+          <input
+            value={value}
+            type="text"
+            size="50"
+            ref={ref}
+            onChange={(e) => handleChange(e)}
+            onKeyDown={(e) => handleEdit(e)}
+            onBlur={() => handleBlur()}
+          />
+        </div>
+      ) : (
+        <div className={style.text}>{todo.text}</div>
+      )}
+
+      <div className={style.date}>{getDate()}</div>
       <div
         className={style.btn_delete}
-        onClick={() => handleDelete(props.setTodos, props.index, props.todos)}
+        onClick={() => handleDelete(setTodos, todo)}
       ></div>
     </div>
   );

@@ -7,7 +7,6 @@ export const useValidation = (value, validation) => {
   useEffect(() => {
       switch (validation) {
         case 'isEmpty':
-            console.log(1)
           value ? setEmpty(false) : setEmpty(true);
           break;
         default:
