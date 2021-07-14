@@ -3,7 +3,7 @@ import style from "./Sort.module.scss";
 import ClassNames from "classnames";
 import { useState } from "react";
 
-const Sort = ({ todos, setTodos }) => {
+const Sort = ({ todos, setTodos, active, setActive }) => {
   const [typeSort, setTypeSort] = useState(true);
 
   const handleAll = () => {
@@ -17,6 +17,7 @@ const Sort = ({ todos, setTodos }) => {
         return item;
       })
     );
+    setActive(1)
   };
 
   const handleDone = () => {
@@ -32,6 +33,7 @@ const Sort = ({ todos, setTodos }) => {
         return item;
       })
     );
+    setActive(2)
   };
 
   const handleUnDone = () => {
@@ -47,6 +49,7 @@ const Sort = ({ todos, setTodos }) => {
       return item;
     })
   );
+  setActive(3)
   };
   const handleSortDate = () => {
     typeSort
@@ -55,13 +58,12 @@ const Sort = ({ todos, setTodos }) => {
     setTypeSort(!typeSort);
   };
 
-  ClassNames(style.btn, style.down);
   return (
     <div className={style.container}>
       <div className={style.buttons}>
-        <Button text="All" handleClick={() => handleAll()} />
-        <Button text="Done" handleClick={() => handleDone()} />
-        <Button text="Undone" handleClick={() => handleUnDone()} />
+        <Button text="All" handleClick={() => handleAll()} active={active} id={1}/>
+        <Button text="Done" handleClick={() => handleDone()} active={active} id={2}/>
+        <Button text="Undone" handleClick={() => handleUnDone()} active={active} id={3}/>
       </div>
       <div className={style.sorting_order}>
         <p>Sort by Date</p>

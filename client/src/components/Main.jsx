@@ -7,18 +7,17 @@ import { useState } from "react";
 import usePagination from "../hooks/pagination.hook";
 const Main = () => {
   const [todos, setTodos] = useState([]);
+  const [activeSort, setActiveSort] = useState(1)
   const { pages, showPagination, pageCount, currentPage, setCurrentPage } =
     usePagination(
       todos.reduce((sum, current) => (current.visible ? ++sum : sum), 0),
       5
     );
-    console.log(999, todos.reduce((sum, current) => (current.visible ? ++sum : sum), 0))
-  console.log(currentPage);
   return (
     <div className={style.main}>
       <h1>ToDo</h1>
-      <Input setTodos={setTodos} />
-      <Sort todos={todos} setTodos={setTodos} />
+      <Input setTodos={setTodos} setCurrentPage={setCurrentPage} setActive={setActiveSort}/>
+      <Sort todos={todos} setTodos={setTodos}  setActive={setActiveSort} active={activeSort}/>
       <List todos={todos} setTodos={setTodos} currentPage={currentPage} />
       {showPagination && (
         <Pagination

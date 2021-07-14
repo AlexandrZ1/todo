@@ -29,7 +29,7 @@ const List = ({ todos, setTodos, currentPage }) => {
   const handleDelete = (setTodos, todo) => {
     setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
   };
-  console.log(currentPage);
+  console.log("Current",currentPage);
   return (
     <div className={style.container}>
       {todos
