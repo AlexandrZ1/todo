@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
+import { VALIDATE } from "../constants";
 
 export const useValidation = (value, validation) => {
   const [isEmpty, setEmpty] = useState(true);
-  const [inputValid, setInputValid] = useState(true);
+  const [inputValid, setInputValid] = useState(false);
 
   useEffect(() => {
-      switch (validation) {
-        case 'isEmpty':
-          value ? setEmpty(false) : setEmpty(true);
-          break;
-        default:
-      }
+    switch (validation) {
+      case VALIDATE.EMPTY:
+        value ? setEmpty(false) : setEmpty(true);
+        break;
+      default:
+    }
   }, [value]);
 
   useEffect(() => {
@@ -22,6 +23,6 @@ export const useValidation = (value, validation) => {
   }, [isEmpty]);
   return {
     isEmpty,
-    inputValid
+    inputValid,
   };
 };

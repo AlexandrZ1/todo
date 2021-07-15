@@ -10,6 +10,6 @@ export const useOutput = (idSelect, typeSort, array) => {
       ? array.sort((a, b) => (a.date < b.date ? 1 : -1))
       : array.sort((a, b) => (a.date > b.date ? 1 : -1));
 
-  const resTodos=sortTodos(selectTodos());
+  const resTodos = sortTodos(selectTodos());
   return { resTodos };
 };

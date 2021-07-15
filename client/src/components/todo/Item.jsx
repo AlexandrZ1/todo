@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { VALIDATE } from "../../constants";
+import { useInput } from "../../hooks/input.hook";
 import { useValidation } from "../../hooks/validation.hook";
 import style from "./Item.module.scss";
 
 const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
   const ref = useRef(null);
-  const [value, setValue] = useState(todo.text);
-  const { inputValid } = useValidation(value, "isEmpty");
+  const { value, setValue, handleChange } = useInput(todo.text);
+  const { inputValid } = useValidation(value, VALIDATE.EMPTY);
   const [visibleEdit, setVisibleEdit] = useState(false);
 
   const getDate = () =>
@@ -18,10 +20,6 @@ const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
   useEffect(() => {
     if (visibleEdit) ref.current.focus();
   }, [visibleEdit]);
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
 
   const handleBlur = () => {
     if (visibleEdit) {

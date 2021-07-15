@@ -16,7 +16,7 @@ const List = ({ setTodos, currentPage, todos }) => {
         )
       );
   };
-  console.log(todos);
+
   const handleDelete = (setTodos, todo) => {
     setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
   };

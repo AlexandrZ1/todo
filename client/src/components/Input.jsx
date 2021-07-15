@@ -1,13 +1,12 @@
 import { useState } from "react";
 import style from "./Input.module.scss";
 import { useValidation } from "../hooks/validation.hook";
+import { VALIDATE } from "../constants";
+import { useInput } from "../hooks/input.hook";
 
 const Input = ({ handleAddTodo }) => {
-  const [value, setValue] = useState("");
-  const { isEmpty } = useValidation(value, "isEmpty");
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
+  const { value, setValue, handleChange } = useInput("");
+  const { inputValid } = useValidation(value, VALIDATE.EMPTY);
 
   return (
     <div className={style.input}>
@@ -18,7 +17,7 @@ const Input = ({ handleAddTodo }) => {
         size="50"
         placeholder="I wont to..."
         onKeyPress={(e) => {
-          handleAddTodo(e, isEmpty, value, setValue);
+          handleAddTodo(e, inputValid, value, setValue);
         }}
         onChange={(e) => handleChange(e)}
       />

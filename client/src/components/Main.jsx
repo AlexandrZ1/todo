@@ -15,7 +15,7 @@ const Main = () => {
     usePagination(resTodos.length, 5);
 
   const handleAddTodo = (event, valid, value, setValue) => {
-    if (event.charCode === 13 && valid === false) {
+    if (event.charCode === 13 && valid) {
       setTodos((prevState) => [
         ...prevState,
         {
@@ -32,6 +32,12 @@ const Main = () => {
     }
   };
 
+  useEffect(() => {
+  if(pageCount<currentPage){
+  setCurrentPage(pageCount)
+  }
+  }, [pages])
+  
   useEffect(() => {
     setCurrentPage(1);
   }, [idButton]);
@@ -50,12 +56,10 @@ const Main = () => {
         setTodos={setTodos}
         currentPage={currentPage}
         todos={resTodos}
-        idButton={idButton}
       />
       {showPagination && (
         <Pagination
           pages={pages}
-          pageCount={pageCount}
           currentPage={currentPage}
           setCurrentPage={setCurrentPage}
         />
