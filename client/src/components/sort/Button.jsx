@@ -1,11 +1,10 @@
 import classNames from "classnames";
 import style from "./Button.module.scss";
 
-const Button = ({ text, handleClick, idSelect, idButton }) => {
+const Button = ({ text, handleClick, idSelect, filterBy }) => {
   return (
-    
     <div
-      className={classNames(style.btn, idButton===idSelect ? style.active : "")}
+      className={classNames(style.btn, filterBy===idSelect ? style.active : "")}
       onClick={handleClick}
     >
       <p>{text}</p>

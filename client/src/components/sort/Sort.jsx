@@ -2,28 +2,17 @@ import Button from "./Button";
 import style from "./Sort.module.scss";
 import ClassNames from "classnames";
 
-const Sort = ({ idButton, setIdButton, typeSort, setTypeSort }) => {
+const Sort = ({ filterBy, setFilterBy, typeSort, setTypeSort }) => {
+  const buttons=["All","Done","UnDone"]
   return (
     <div className={style.container}>
       <div className={style.buttons}>
-        <Button
-          text="All"
-          handleClick={() => setIdButton(1)}
-          idButton={idButton}
-          idSelect={1}
-        />
-        <Button
-          text="Done"
-          handleClick={() => setIdButton(2)}
-          idButton={idButton}
-          idSelect={2}
-        />
-        <Button
-          text="Undone"
-          handleClick={() => setIdButton(3)}
-          idButton={idButton}
-          idSelect={3}
-        />
+        {buttons.map((item,i)=><Button
+          text={item}
+          handleClick={() => setFilterBy(i+1)}
+          filterBy={filterBy}
+          idSelect={i+1}
+        />)}
       </div>
       <div className={style.sorting_order}>
         <p>Sort by Date</p>

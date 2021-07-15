@@ -8,9 +8,9 @@ import usePagination from "../hooks/pagination.hook";
 import { useOutput } from "../hooks/output.hook";
 const Main = () => {
   const [todos, setTodos] = useState([]);
-  const [idButton, setIdButton] = useState(1);
+  const [filterBy, setFilterBy] = useState(1);
   const [typeSort, setTypeSort] = useState(true);
-  const { resTodos } = useOutput(idButton, typeSort, todos);
+  const { resTodos } = useOutput(filterBy, typeSort, todos);
   const { pages, showPagination, pageCount, currentPage, setCurrentPage } =
     usePagination(resTodos.length, 5);
 
@@ -25,7 +25,7 @@ const Main = () => {
           id: Date.now(),
         },
       ]);
-      setIdButton(1);
+      setFilterBy(1);
       setValue("");
       setCurrentPage(1);
       setTypeSort(true);
@@ -40,15 +40,15 @@ const Main = () => {
   
   useEffect(() => {
     setCurrentPage(1);
-  }, [idButton]);
+  }, [filterBy]);
 
   return (
     <div className={style.main} data-testid="main">
       <h1>ToDo</h1>
       <Input handleAddTodo={handleAddTodo} data-testid="main-child"/>
       <Sort
-        setIdButton={setIdButton}
-        idButton={idButton}
+        setFilterBy={setFilterBy}
+        filterBy={filterBy}
         setTypeSort={setTypeSort}
         typeSort={typeSort}
         data-testid="main-child"
