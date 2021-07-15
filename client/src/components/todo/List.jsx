@@ -22,7 +22,11 @@ const List = ({ setTodos, currentPage, todos }) => {
   };
 
   return (
-    <div className={style.container}>
+    <div
+      className={style.container}
+      data-testid="main-child"
+      data-testid="todos"
+    >
       {todos.slice((currentPage - 1) * 5, currentPage * 5).map((item) => (
         <Item
           key={item.id}
@@ -30,6 +34,7 @@ const List = ({ setTodos, currentPage, todos }) => {
           setTodos={setTodos}
           handleDelete={handleDelete}
           handleDone={handleDone}
+          data-testid="todo"
         />
       ))}
     </div>

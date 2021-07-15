@@ -2,7 +2,6 @@ import classNames from "classnames";
 import style from "./Button.module.scss";
 
 const Button = ({ text, handleClick, idSelect, idButton }) => {
-  console.log(handleClick)
   return (
     
     <div

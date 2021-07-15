@@ -43,19 +43,21 @@ const Main = () => {
   }, [idButton]);
 
   return (
-    <div className={style.main}>
+    <div className={style.main} data-testid="main">
       <h1>ToDo</h1>
-      <Input handleAddTodo={handleAddTodo} />
+      <Input handleAddTodo={handleAddTodo} data-testid="main-child"/>
       <Sort
         setIdButton={setIdButton}
         idButton={idButton}
         setTypeSort={setTypeSort}
         typeSort={typeSort}
+        data-testid="main-child"
       />
       <List
         setTodos={setTodos}
         currentPage={currentPage}
         todos={resTodos}
+        data-testid="main-child"
       />
       {showPagination && (
         <Pagination

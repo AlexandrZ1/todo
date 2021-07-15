@@ -3,7 +3,7 @@ import "./App.scss";
 
 const App = () => {
   return (
-      <Main />
+      <Main data-testid="main"/>
   );
 };
 
