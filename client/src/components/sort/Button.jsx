@@ -1,11 +1,13 @@
 import classNames from "classnames";
 import style from "./Button.module.scss";
 
-const Button = ({ text, active, handleClick, id }) => {
+const Button = ({ text, handleClick, idSelect, idButton }) => {
+  console.log(handleClick)
   return (
+    
     <div
-      className={classNames(style.btn, active===id ? style.active : "")}
-      onClick={() => handleClick()}
+      className={classNames(style.btn, idButton===idSelect ? style.active : "")}
+      onClick={handleClick}
     >
       <p>{text}</p>
     </div>

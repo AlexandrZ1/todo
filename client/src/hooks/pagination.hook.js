@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 const usePagination = (count, rowsVisibleCount) => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = useMemo(() => {
+    console.log(111111111111);
     return Math.ceil(count / rowsVisibleCount);
   }, [count, rowsVisibleCount]);
 

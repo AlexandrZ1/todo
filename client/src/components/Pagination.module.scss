@@ -1,19 +1,20 @@
-@import './colors.scss';
+@import "./colors.scss";
 
 .container {
     display: flex;
     height: 40px;
-    & .prev, & .next {
+    & .prev,
+    & .next {
         margin: 0 10px;
         width: 40px;
         height: 40px;
         border-radius: 10px;
         cursor: pointer;
     }
-    & .prev{
+    & .prev {
         background: url(../assets/img/Union_left.svg) no-repeat center $blue;
     }
-    & .next{
+    & .next {
         background: url(.././assets/img/Union_right.svg) no-repeat center $blue;
     }
     & .steps {
@@ -23,7 +24,7 @@
         align-items: center;
         justify-content: center;
         min-width: 40px;
-        & .number{
+        & .number {
             cursor: pointer;
             height: 30px;
             width: 30px;
@@ -31,11 +32,17 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            &.selected{
+            &.selected {
                 background: $blue;
             }
         }
-        & .number:hover{
+        & :last-child {
+            margin-right: 5px;
+        }
+        & :first-child {
+            margin-left: 5px;
+        }
+        & .number:hover {
             border: 2px solid $blue;
         }
     }

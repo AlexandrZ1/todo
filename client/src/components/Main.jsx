@@ -3,25 +3,57 @@ import Sort from "./sort/Sort";
 import List from "./todo/List";
 import Pagination from "./Pagination";
 import style from "./Main.module.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import usePagination from "../hooks/pagination.hook";
+import { useOutput } from "../hooks/output.hook";
 const Main = () => {
   const [todos, setTodos] = useState([]);
-  const [activeSort, setActiveSort] = useState(1)
+  const [idButton, setIdButton] = useState(1);
+  const [typeSort, setTypeSort] = useState(true);
+  const { resTodos } = useOutput(idButton, typeSort, todos);
   const { pages, showPagination, pageCount, currentPage, setCurrentPage } =
-    usePagination(
-      todos.reduce((sum, current) => (current.visible ? ++sum : sum), 0),
-      5
-    );
+    usePagination(resTodos.length, 5);
+
+  const handleAddTodo = (event, valid, value, setValue) => {
+    if (event.charCode === 13 && valid === false) {
+      setTodos((prevState) => [
+        ...prevState,
+        {
+          done: false,
+          text: value,
+          date: Date.now(),
+          id: Date.now(),
+        },
+      ]);
+      setIdButton(1);
+      setValue("");
+      setCurrentPage(1);
+      setTypeSort(true);
+    }
+  };
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [idButton]);
+
   return (
     <div className={style.main}>
       <h1>ToDo</h1>
-      <Input setTodos={setTodos} setCurrentPage={setCurrentPage} setActive={setActiveSort}/>
-      <Sort todos={todos} setTodos={setTodos}  setActive={setActiveSort} active={activeSort}/>
-      <List todos={todos} setTodos={setTodos} currentPage={currentPage} />
+      <Input handleAddTodo={handleAddTodo} />
+      <Sort
+        setIdButton={setIdButton}
+        idButton={idButton}
+        setTypeSort={setTypeSort}
+        typeSort={typeSort}
+      />
+      <List
+        setTodos={setTodos}
+        currentPage={currentPage}
+        todos={resTodos}
+        idButton={idButton}
+      />
       {showPagination && (
         <Pagination
-          todos={todos}
           pages={pages}
           pageCount={pageCount}
           currentPage={currentPage}

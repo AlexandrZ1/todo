@@ -1,21 +1,14 @@
 import style from "./Pagination.module.scss";
 import ClassNames from "classnames";
 
-const Pagination = ({
-  todos,
-  setTodos,
-  pages,
-  pageCount,
-  currentPage,
-  setCurrentPage,
-}) => {
+const Pagination = ({ pages, currentPage, setCurrentPage }) => {
   return (
     <div className={style.container}>
       <div className={style.prev} onClick={() => setCurrentPage(1)}></div>
       <div className={style.steps}>
         {pages.map((item) => (
           <div
-          key={item}
+            key={item}
             className={ClassNames(
               style.number,
               currentPage === item ? style.selected : ""
@@ -28,7 +21,7 @@ const Pagination = ({
       </div>
       <div
         className={style.next}
-        onClick={() => setCurrentPage(pageCount)}
+        onClick={() => setCurrentPage(pages.length)}
       ></div>
     </div>
   );

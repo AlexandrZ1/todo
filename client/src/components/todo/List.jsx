@@ -1,49 +1,37 @@
 import Item from "./Item";
 import style from "./List.module.scss";
 
-const List = ({ todos, setTodos, currentPage }) => {
+const List = ({ setTodos, currentPage, todos }) => {
   const handleDone = (setTodos, todo) => {
-    if (!todo.done) {
+    if (!todo.done)
       setTodos((prevState) =>
-        prevState.map((item) => {
-          if (item.id === todo.id) {
-            item.done = true;
-            return item;
-          }
-          return item;
-        })
+        prevState.map((item) =>
+          item.id === todo.id ? (item.done = true) && item : item
+        )
       );
-    } else {
+    else
       setTodos((prevState) =>
-        prevState.map((item) => {
-          if (item.id === todo.id) {
-            item.done = false;
-            return item;
-          }
-          return item;
-        })
+        prevState.map((item) =>
+          item.id === todo.id ? !(item.done = false) && item : item
+        )
       );
-    }
   };
-
+  console.log(todos);
   const handleDelete = (setTodos, todo) => {
     setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
   };
-  console.log("Current",currentPage);
+
   return (
     <div className={style.container}>
-      {todos
-        .filter((item) => item.visible)
-        .slice((currentPage - 1) * 5, currentPage * 5)
-        .map((item) => (
-          <Item
-            key={item.id}
-            todo={item}
-            setTodos={setTodos}
-            handleDelete={handleDelete}
-            handleDone={handleDone}
-          />
-        ))}
+      {todos.slice((currentPage - 1) * 5, currentPage * 5).map((item) => (
+        <Item
+          key={item.id}
+          todo={item}
+          setTodos={setTodos}
+          handleDelete={handleDelete}
+          handleDone={handleDone}
+        />
+      ))}
     </div>
   );
 };

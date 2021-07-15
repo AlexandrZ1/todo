@@ -64,6 +64,7 @@ const Item = ({ todo, setTodos, handleDelete, handleDone }) => {
             type="text"
             size="50"
             ref={ref}
+            maxLength="30"
             onChange={(e) => handleChange(e)}
             onKeyDown={(e) => handleEdit(e)}
             onBlur={() => handleBlur()}
