@@ -3,7 +3,7 @@ import ClassNames from "classnames";
 
 const Pagination = ({ pages, currentPage, setCurrentPage }) => {
   return (
-    <div className={style.container} data-testid='pagination'>
+    <div className={style.container}>
       <div className={style.prev} onClick={() => setCurrentPage(1)}></div>
       <div className={style.steps}>
         {pages.map((item) => (
@@ -14,7 +14,6 @@ const Pagination = ({ pages, currentPage, setCurrentPage }) => {
               currentPage === item ? style.selected : ""
             )}
             onClick={() => setCurrentPage(item)}
-            data-testid='page'
           >
             {item}
           </div>

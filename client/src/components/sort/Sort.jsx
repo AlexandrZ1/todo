@@ -8,6 +8,7 @@ const Sort = ({ filterBy, setFilterBy, typeSort, setTypeSort }) => {
     <div className={style.container}>
       <div className={style.buttons}>
         {buttons.map((item,i)=><Button
+          key={i}
           text={item}
           handleClick={() => setFilterBy(i+1)}
           filterBy={filterBy}

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import style from "./Input.module.scss";
 import { useValidation } from "../hooks/validation.hook";
 import { VALIDATE } from "../constants";
