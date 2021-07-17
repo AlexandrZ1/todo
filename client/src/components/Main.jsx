@@ -2,13 +2,16 @@ import Input from "./Input";
 import Sort from "./sort/Sort";
 import List from "./todo/List";
 import Pagination from "./Pagination";
-import style from "./Main.module.scss";
 import { useEffect, useState } from "react";
 import usePagination from "../hooks/pagination.hook";
+import { Grid, Paper } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+import useStyles from "./Main.styles";
 const Main = () => {
   const [todos, setTodos] = useState([]);
   const [filterBy, setFilterBy] = useState(1);
   const [typeSort, setTypeSort] = useState(true);
+  const clases = useStyles();
 
   const {
     pages,
@@ -81,29 +84,48 @@ const Main = () => {
   }, [filterBy]);
 
   return (
-    <div className={style.main}>
-      <h1>ToDo</h1>
-      <Input handleAddTodo={handleAddTodo} />
-      <Sort
-        setFilterBy={setFilterBy}
-        filterBy={filterBy}
-        setTypeSort={setTypeSort}
-        typeSort={typeSort}
-      />
-      <List
-        todos={resTodos}
-        handleDone={handleDone}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-      />
-      {showPagination && (
-        <Pagination
-          pages={pages}
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-        />
-      )}
-    </div>
+    <Paper elevation={3} className={clases.main}>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={1}
+        sm
+      >
+        <Grid item xs>
+          <Typography variant="h3">ToDo</Typography>
+        </Grid>
+        <Grid item xs>
+          <Input handleAddTodo={handleAddTodo} />
+        </Grid>
+        <Grid item xs>
+          <Sort
+            setFilterBy={setFilterBy}
+            filterBy={filterBy}
+            setTypeSort={setTypeSort}
+            typeSort={typeSort}
+          />
+        </Grid>
+        <Grid item xs>
+          <List
+            todos={resTodos}
+            handleDone={handleDone}
+            handleDelete={handleDelete}
+            handleEdit={handleEdit}
+          />
+        </Grid>
+        {showPagination && (
+          <Grid item xs>
+            <Pagination
+              pages={pages}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          </Grid>
+        )}
+      </Grid>
+    </Paper>
   );
 };
 

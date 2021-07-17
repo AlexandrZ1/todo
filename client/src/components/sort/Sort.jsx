@@ -1,28 +1,39 @@
-import Button from "./Button";
 import style from "./Sort.module.scss";
 import ClassNames from "classnames";
-
+import {
+  Button,
+  ButtonGroup,
+  Grid,
+  IconButton,
+  Typography,
+} from "@material-ui/core";
+import ArrowUpwardTwoToneIcon from "@material-ui/icons/ArrowUpwardTwoTone";
+import ArrowDownwardTwoToneIcon from "@material-ui/icons/ArrowDownwardTwoTone";
 const Sort = ({ filterBy, setFilterBy, typeSort, setTypeSort }) => {
-  const buttons=["All","Done","UnDone"]
+  const buttons = ["All", "Done", "UnDone"];
   return (
-    <div className={style.container}>
-      <div className={style.buttons}>
-        {buttons.map((item,i)=><Button
-          key={i}
-          text={item}
-          handleClick={() => setFilterBy(i+1)}
-          filterBy={filterBy}
-          idSelect={i+1}
-        />)}
-      </div>
-      <div className={style.sorting_order}>
-        <p>Sort by Date</p>
-        <div
-          className={ClassNames(style.btn, typeSort ? style.up : style.down)}
-          onClick={() => setTypeSort(!typeSort)}
-        ></div>
-      </div>
-    </div>
+    <Grid container spacing={8}>
+      <Grid container item alignItems="center" xs>
+        <ButtonGroup color="primary" aria-label="outlined primary button group">
+          {buttons.map((item, i) => (
+            <Button
+              key={i}
+              onClick={() => setFilterBy(i + 1)}
+              color={filterBy === i + 1 && "secondary"}
+              variant="contained"
+            >
+              {item}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Grid>
+      <Grid item container alignItems="center" xs>
+        <Typography>Sort by Date</Typography>
+        <IconButton onClick={() => setTypeSort(!typeSort)}>
+          {typeSort ? <ArrowDownwardTwoToneIcon /> : <ArrowUpwardTwoToneIcon />}
+        </IconButton>
+      </Grid>
+    </Grid>
   );
 };
 
