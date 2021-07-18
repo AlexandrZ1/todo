@@ -10,14 +10,12 @@ const Input = ({ handleAddTodo }) => {
   const clases = useStyles();
   return (
     <TextField
-      autoComplete="off"
       className={clases.input}
-      id="outlined-basic"
+      autoComplete="off"
       size="small"
-      placeholder="I want to ..."
       variant="outlined"
       color="primary"
-      inputProps={{ maxLength: 25,value:value }}
+      inputProps={{ maxLength: 25, value: value, placeholder: "I want to ..." }}
       onKeyPress={(e) => handleAddTodo(e, inputValid, value, setValue)}
       onChange={(e) => handleChange(e)}
       onBlur={() => setValue("")}

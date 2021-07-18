@@ -1,6 +1,6 @@
 import Input from "./Input";
 import Sort from "./Sort";
-import Pagination from '@material-ui/lab/Pagination';
+import Pagination from "@material-ui/lab/Pagination";
 import { useEffect, useState } from "react";
 import usePagination from "../hooks/pagination.hook";
 import { Paper } from "@material-ui/core";
@@ -21,7 +21,7 @@ const Main = () => {
     resTodos,
   } = usePagination(5, filterBy, typeSort, todos);
 
-  const handleEdit = (event, todo, value , valid) => {
+  const handleEdit = (event, todo, value, valid) => {
     if (event.keyCode === 13 && valid) {
       setTodos((prevState) =>
         prevState.map((item) =>
@@ -84,27 +84,41 @@ const Main = () => {
 
   return (
     <Paper elevation={3} className={clases.main}>
-          <Typography className={clases.head}variant="h3">ToDo</Typography>
-          <Input handleAddTodo={handleAddTodo} />
-          <Sort
-            setFilterBy={setFilterBy}
-            filterBy={filterBy}
-            setTypeSort={setTypeSort}
-            typeSort={typeSort}
+      <Typography className={clases.head} variant="h3">
+        ToDo
+      </Typography>
+      <Input handleAddTodo={handleAddTodo} />
+      <Sort
+        setFilterBy={setFilterBy}
+        filterBy={filterBy}
+        setTypeSort={setTypeSort}
+        typeSort={typeSort}
+      />
+      <div className={clases.list}>
+        {resTodos.map((item) => (
+          <Item
+            key={item.id}
+            todo={item}
+            handleDelete={handleDelete}
+            handleDone={handleDone}
+            handleEdit={handleEdit}
           />
-          <div className={clases.list}
-          >{resTodos.map((item) => (
-            <Item
-              key={item.id}
-              todo={item}
-              handleDelete={handleDelete}
-              handleDone={handleDone}
-              handleEdit={handleEdit}
-            />
-          ))}</div>
-        {showPagination && (
-            <Pagination className={clases.pagination} count={pageCount} page={currentPage} onChange={(e,value)=> setCurrentPage(value)}/>
-        )}
+        ))}
+      </div>
+      {showPagination && (
+        <Pagination
+          className={clases.pagination}
+          color="primary"
+          count={pageCount}
+          page={currentPage}
+          onChange={(e, value) => setCurrentPage(value)}
+          showFirstButton
+          showLastButton
+          hideNextButton={true}
+          hidePrevButton={true}
+          shape="rounded"
+        />
+      )}
     </Paper>
   );
 };

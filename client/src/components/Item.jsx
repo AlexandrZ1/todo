@@ -6,7 +6,6 @@ import { useValidation } from "../hooks/validation.hook";
 import CheckCircleOutlineTwoToneIcon from "@material-ui/icons/CheckCircleOutlineTwoTone";
 import DeleteOutlineTwoToneIcon from "@material-ui/icons/DeleteOutlineTwoTone";
 import useStyles from "./Item.styles";
-//import style from "./Item.module.scss";
 
 const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
   const { value, setValue, handleChange } = useInput(todo.text);
@@ -31,16 +30,19 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
     <Paper elevation={3} className={clases.container}>
       <div className={clases.item}>
         <IconButton onClick={() => handleDone(todo)}>
-          <CheckCircleOutlineTwoToneIcon color={todo.done?"primary":"inherit"}/>
+          <CheckCircleOutlineTwoToneIcon
+            className={todo.done && clases.success}
+            color="secondary"
+          />
         </IconButton>
-        <div  className={clases.text} onClick={() => handleSwitchEdit()}>
+        <div className={clases.text} onClick={() => handleSwitchEdit()}>
           {visibleEdit && (
             <TextField
-            className={clases.input}
-            size="small"
+              className={clases.input}
+              size="small"
               variant="outlined"
               autoFocus={true}
-              inputProps={{ maxLength: 25, value:value }}
+              inputProps={{ maxLength: 25, value: value }}
               onChange={(e) => handleChange(e)}
               onKeyDown={(e) =>
                 handleEdit(e, todo, value, inputValid) && setVisibleEdit(false)
@@ -58,7 +60,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
           })}
         </Typography>
         <IconButton onClick={() => handleDelete(todo)}>
-          <DeleteOutlineTwoToneIcon color="secondary"/>
+          <DeleteOutlineTwoToneIcon className={clases.delete} />
         </IconButton>
       </div>
     </Paper>
