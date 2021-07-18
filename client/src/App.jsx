@@ -1,9 +1,13 @@
 import Main from "./components/Main";
-import "./App.scss";
+import React from "react";
+import { CssBaseline } from "@material-ui/core";
 
 const App = () => {
   return (
-      <Main/>
+    <React.Fragment>
+      <CssBaseline />
+      <Main />
+    </React.Fragment>
   );
 };
 

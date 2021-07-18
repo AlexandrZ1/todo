@@ -1,19 +1,19 @@
-import style from "./Sort.module.scss";
+
 import ClassNames from "classnames";
 import {
   Button,
   ButtonGroup,
-  Grid,
   IconButton,
   Typography,
 } from "@material-ui/core";
 import ArrowUpwardTwoToneIcon from "@material-ui/icons/ArrowUpwardTwoTone";
 import ArrowDownwardTwoToneIcon from "@material-ui/icons/ArrowDownwardTwoTone";
+import useStyles from "./Sort.styles";
 const Sort = ({ filterBy, setFilterBy, typeSort, setTypeSort }) => {
   const buttons = ["All", "Done", "UnDone"];
+  const clases = useStyles()
   return (
-    <Grid container spacing={8}>
-      <Grid container item alignItems="center" xs>
+    <div className={clases.sort}>
         <ButtonGroup color="primary" aria-label="outlined primary button group">
           {buttons.map((item, i) => (
             <Button
@@ -26,14 +26,13 @@ const Sort = ({ filterBy, setFilterBy, typeSort, setTypeSort }) => {
             </Button>
           ))}
         </ButtonGroup>
-      </Grid>
-      <Grid item container alignItems="center" xs>
+      <div className={clases.sorting_date}>
         <Typography>Sort by Date</Typography>
         <IconButton onClick={() => setTypeSort(!typeSort)}>
           {typeSort ? <ArrowDownwardTwoToneIcon /> : <ArrowUpwardTwoToneIcon />}
         </IconButton>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 
