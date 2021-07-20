@@ -1,7 +1,7 @@
-import { useValidation } from "../hooks/validation.hook";
-import { VALIDATE } from "../constants";
-import { useInput } from "../hooks/input.hook";
 import { TextField } from "@material-ui/core";
+
+import { useInput } from "../hooks/input.hook";
+
 import useStyles from "./Input.styles";
 
 const Input = ({ handleAddTodo }) => {

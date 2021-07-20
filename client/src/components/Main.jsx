@@ -1,22 +1,22 @@
-import Input from "./Input";
-import Sort from "./Sort";
+import { Paper , Typography , CircularProgress } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 import Pagination from "@material-ui/lab/Pagination";
 import { useEffect, useState } from "react";
-import usePagination from "../hooks/pagination.hook";
-import { Paper } from "@material-ui/core";
-import { Typography } from "@material-ui/core";
-import useStyles from "./Main.styles";
-import Item from "./Item";
+
 import axios from "../api/index";
-import { CircularProgress } from "@material-ui/core";
+import usePagination from "../hooks/pagination.hook";
 import { getSortParams } from "../utils/generatorParams";
-import Alert from "@material-ui/lab/Alert";
+
+import Input from "./Input";
+import Item from "./Item";
+import useStyles from "./Main.styles";
+import Sort from "./Sort";
 
 const Main = () => {
   const clases = useStyles();
   const [todos, setTodos] = useState([]);
-  const [filterBy, setFilterBy] = useState(1);
-  const [typeSort, setTypeSort] = useState(true);
+  const [filterBy, setFilterBy] = useState(1);//
+  const [typeSort, setTypeSort] = useState(true);//
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [responseMessage, setResponseMessage] = useState("");
@@ -27,13 +27,13 @@ const Main = () => {
     currentPage,
     setCurrentPage,
     resTodos,
-  } = usePagination(5, todos);
-
+  } = usePagination(5, todos);//
+  console.log(11111111)
   const getTodos = async () => {
     try {
       responseMessage && setResponseMessage("");
       error && setError("");
-      console.log(112312313123);
+     // console.log(112312313123);
       setLoading(true);
       const response = await axios.get("v1/tasks/4", {
         params: getSortParams(filterBy, typeSort),
@@ -55,11 +55,9 @@ const Main = () => {
   };
 
   //---------------------------Handlers-------------------------------
-  const handleEdit = (event, todo, value) => {
+  const handleEdit = async (event, todo, value) => {
     const isEnter = event.keyCode === 13;
     const isESC = event.keyCode === 27;
-
-    async function editTodo() {
       try {
         if (isEnter && todo.text !== value) {
           setLoading(true);
@@ -78,26 +76,15 @@ const Main = () => {
         }
       }
       setLoading(false);
-    }
-
-    editTodo();
-    if (isESC || isEnter) return true;
+    if (isESC || isEnter) return true;//
   };
 
-  const handleDone = (todo) => {
-    async function doneTodo() {
+  const handleDone = async (todo) => {
       try {
-        let response = null;
         setLoading(true);
-        if (!todo.done) {
-          response = await axios.patch(`v1/task/4/${todo.id}`, {
-            done: true,
+          const response = await axios.patch(`v1/task/4/${todo.id}`, {
+            done: !todo.done,
           });
-        } else {
-          response = await axios.patch(`v1/task/4/${todo.id}`, {
-            done: false,
-          });
-        }
         getTodos();
         if (response.status === 200) setResponseMessage("Task updated");
       } catch (error) {
@@ -108,9 +95,6 @@ const Main = () => {
         }
       }
       setLoading(false);
-    }
-
-    doneTodo();
   };
 
   const handleDelete = (todo) => {
@@ -160,16 +144,20 @@ const Main = () => {
   //---------------------------Effects-------------------------------
 
   useEffect(() => {
+    console.log('useffect filters')
     getTodos();
   }, [filterBy, typeSort]);
 
   useEffect(() => {
+    console.log('useffect pagination')
+
     if (pageCount < currentPage) {
       setCurrentPage(pageCount);
     }
   }, [pages]);
 
   useEffect(() => {
+    console.log('useffect filterby only')
     setCurrentPage(1);
   }, [filterBy]);
 
