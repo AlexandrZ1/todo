@@ -14,7 +14,6 @@ import Alert from "@material-ui/lab/Alert";
 
 const Main = () => {
   const clases = useStyles();
-  let runTimout = null;
   const [todos, setTodos] = useState([]);
   const [filterBy, setFilterBy] = useState(1);
   const [typeSort, setTypeSort] = useState(true);
@@ -32,6 +31,9 @@ const Main = () => {
 
   const getTodos = async () => {
     try {
+      responseMessage && setResponseMessage("");
+      error && setError("");
+      console.log(112312313123);
       setLoading(true);
       const response = await axios.get("v1/tasks/4", {
         params: getSortParams(filterBy, typeSort),
@@ -54,23 +56,28 @@ const Main = () => {
 
   //---------------------------Handlers-------------------------------
   const handleEdit = (event, todo, value) => {
-    const isEnter = event.keyCode === 13 ;
+    const isEnter = event.keyCode === 13;
     const isESC = event.keyCode === 27;
 
     async function editTodo() {
       try {
-        if (isEnter) {
+        if (isEnter && todo.text !== value) {
           setLoading(true);
           const response = await axios.patch(`v1/task/4/${todo.id}`, {
             name: value,
           });
-          setLoading(false);
+          console.log(response);
+          if (response.status === 200) setResponseMessage("Task edited");
           getTodos();
         }
       } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
+        if (error.response.status === 422)
+          setError("Minimum task length 2 characters");
+        if (error.response.status === 400) {
+          setError("Task not created");
+        }
       }
+      setLoading(false);
     }
 
     editTodo();
@@ -80,21 +87,27 @@ const Main = () => {
   const handleDone = (todo) => {
     async function doneTodo() {
       try {
+        let response = null;
         setLoading(true);
         if (!todo.done) {
-          await axios.patch(`v1/task/4/${todo.id}`, {
+          response = await axios.patch(`v1/task/4/${todo.id}`, {
             done: true,
           });
         } else {
-          await axios.patch(`v1/task/4/${todo.id}`, {
+          response = await axios.patch(`v1/task/4/${todo.id}`, {
             done: false,
           });
         }
         getTodos();
+        if (response.status === 200) setResponseMessage("Task updated");
       } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
+        if (error.response.status === 422)
+          setError("Invalid fields in request");
+        if (error.response.status === 400) {
+          setError("Task not updated");
+        }
       }
+      setLoading(false);
     }
 
     doneTodo();
@@ -104,19 +117,19 @@ const Main = () => {
     async function deleteTodo() {
       try {
         setLoading(true);
-        await axios.delete(`v1/task/4/${todo.id}`);
+        const response = await axios.delete(`v1/task/4/${todo.id}`);
         getTodos();
+        if (response.status === 204) setResponseMessage("Task deleted");
       } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
+        if (error.response.status === 404) setError("Task not found");
       }
+      setLoading(false);
     }
-
     deleteTodo();
   };
 
   const handleAddTodo = (event, value, setValue) => {
-    const isEnter = event.charCode === 13
+    const isEnter = event.charCode === 13;
 
     async function addTodo() {
       try {
@@ -130,10 +143,15 @@ const Main = () => {
         setCurrentPage(1);
         setTypeSort(true);
         getTodos();
+        if (response.status === 200) setResponseMessage("Task created");
       } catch (error) {
-        setError(error.response.data.message);
-        setLoading(false);
+        if (error.response.status === 422)
+          setError("Minimum task length 2 characters");
+        if (error.response.status === 400) {
+          setError("Task exist");
+        }
       }
+      setLoading(false);
     }
 
     if (isEnter) addTodo();
@@ -142,13 +160,6 @@ const Main = () => {
   //---------------------------Effects-------------------------------
 
   useEffect(() => {
-    if (error) {
-      clearTimeout(runTimout);
-    }
-  }, [error]);
-
-  useEffect(() => {
-    console.log(11111);
     getTodos();
   }, [filterBy, typeSort]);
 
@@ -174,13 +185,15 @@ const Main = () => {
       </Typography>
 
       <Input handleAddTodo={handleAddTodo} />
-      {error && (
+      {(error || responseMessage) && (
         <Alert
           className={clases.alert}
-          onClose={() => setError("")}
-          severity="error"
+          onClose={() =>
+            (error && setError("")) || (responseMessage && setResponseMessage(""))
+          }
+          severity={error ? "error" : "success"}
         >
-          {error}
+          {error || responseMessage}
         </Alert>
       )}
       <Sort

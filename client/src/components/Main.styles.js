@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: "10px",
   },
   alert:{
-    marginTop:"5px"
+    marginTop:"5px",
+    width:"80%"
   }
 }));
 
