@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
   text: {
     flexGrow: "1",
     padding: "0 5px",
+    whiteSpace: "unset",
+    wordBreak: "break-all",
+    alignSelf:"none"
   },
   success: {
     color: theme.palette.success.main,

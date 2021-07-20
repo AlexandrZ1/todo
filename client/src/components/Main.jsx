@@ -7,11 +7,20 @@ import { Paper } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 import useStyles from "./Main.styles";
 import Item from "./Item";
+import axios from "../api/index";
+import { CircularProgress } from "@material-ui/core";
+import { getSortParams } from "../utils/generatorParams";
+import Alert from "@material-ui/lab/Alert";
+
 const Main = () => {
+  const clases = useStyles();
+  let runTimout = null;
   const [todos, setTodos] = useState([]);
   const [filterBy, setFilterBy] = useState(1);
   const [typeSort, setTypeSort] = useState(true);
-  const clases = useStyles();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [responseMessage, setResponseMessage] = useState("");
   const {
     pages,
     showPagination,
@@ -19,58 +28,129 @@ const Main = () => {
     currentPage,
     setCurrentPage,
     resTodos,
-  } = usePagination(5, filterBy, typeSort, todos);
+  } = usePagination(5, todos);
 
-  const handleEdit = (event, todo, value, valid) => {
-    if (event.keyCode === 13 && valid) {
-      setTodos((prevState) =>
-        prevState.map((item) =>
-          item.id === todo.id ? (item.text = value) && item : item
-        )
+  const getTodos = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get("v1/tasks/4", {
+        params: getSortParams(filterBy, typeSort),
+      });
+      setLoading(false);
+      setTodos(
+        response.data.map((todo) => {
+          return {
+            done: todo.done,
+            text: todo.name,
+            date: todo.createdAt,
+            id: todo.uuid,
+          };
+        })
       );
-      return true;
+    } catch (error) {
+      setLoading(false);
     }
-    if (event.keyCode === 27) {
-      return true;
+  };
+
+  //---------------------------Handlers-------------------------------
+  const handleEdit = (event, todo, value) => {
+    const isEnter = event.keyCode === 13 ;
+    const isESC = event.keyCode === 27;
+
+    async function editTodo() {
+      try {
+        if (isEnter) {
+          setLoading(true);
+          const response = await axios.patch(`v1/task/4/${todo.id}`, {
+            name: value,
+          });
+          setLoading(false);
+          getTodos();
+        }
+      } catch (error) {
+        setError(error.response.data.message);
+        setLoading(false);
+      }
     }
+
+    editTodo();
+    if (isESC || isEnter) return true;
   };
 
   const handleDone = (todo) => {
-    if (!todo.done)
-      setTodos((prevState) =>
-        prevState.map((item) =>
-          item.id === todo.id ? (item.done = true) && item : item
-        )
-      );
-    else
-      setTodos((prevState) =>
-        prevState.map((item) =>
-          item.id === todo.id ? !(item.done = false) && item : item
-        )
-      );
+    async function doneTodo() {
+      try {
+        setLoading(true);
+        if (!todo.done) {
+          await axios.patch(`v1/task/4/${todo.id}`, {
+            done: true,
+          });
+        } else {
+          await axios.patch(`v1/task/4/${todo.id}`, {
+            done: false,
+          });
+        }
+        getTodos();
+      } catch (error) {
+        setError(error.response.data.message);
+        setLoading(false);
+      }
+    }
+
+    doneTodo();
   };
 
   const handleDelete = (todo) => {
-    setTodos((prevState) => prevState.filter((item, i) => item.id !== todo.id));
+    async function deleteTodo() {
+      try {
+        setLoading(true);
+        await axios.delete(`v1/task/4/${todo.id}`);
+        getTodos();
+      } catch (error) {
+        setError(error.response.data.message);
+        setLoading(false);
+      }
+    }
+
+    deleteTodo();
   };
 
-  const handleAddTodo = (event, valid, value, setValue) => {
-    if (event.charCode === 13 && valid) {
-      setTodos((prevState) => [
-        ...prevState,
-        {
+  const handleAddTodo = (event, value, setValue) => {
+    const isEnter = event.charCode === 13
+
+    async function addTodo() {
+      try {
+        setLoading(true);
+        const response = await axios.post("v1/task/4", {
+          name: value,
           done: false,
-          text: value,
-          date: Date.now(),
-          id: Date.now(),
-        },
-      ]);
-      setFilterBy(1);
-      setValue("");
-      setCurrentPage(1);
-      setTypeSort(true);
+        });
+        setFilterBy(1);
+        setValue("");
+        setCurrentPage(1);
+        setTypeSort(true);
+        getTodos();
+      } catch (error) {
+        setError(error.response.data.message);
+        setLoading(false);
+      }
     }
+
+    if (isEnter) addTodo();
   };
+
+  //---------------------------Effects-------------------------------
+
+  useEffect(() => {
+    if (error) {
+      clearTimeout(runTimout);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    console.log(11111);
+    getTodos();
+  }, [filterBy, typeSort]);
 
   useEffect(() => {
     if (pageCount < currentPage) {
@@ -84,10 +164,25 @@ const Main = () => {
 
   return (
     <Paper elevation={3} className={clases.main}>
+      {loading && (
+        <div className={clases.loader}>
+          <CircularProgress color="" disableShrink />
+        </div>
+      )}
       <Typography className={clases.head} variant="h3">
         ToDo
       </Typography>
+
       <Input handleAddTodo={handleAddTodo} />
+      {error && (
+        <Alert
+          className={clases.alert}
+          onClose={() => setError("")}
+          severity="error"
+        >
+          {error}
+        </Alert>
+      )}
       <Sort
         setFilterBy={setFilterBy}
         filterBy={filterBy}

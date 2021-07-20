@@ -6,7 +6,6 @@ import useStyles from "./Input.styles";
 
 const Input = ({ handleAddTodo }) => {
   const { value, setValue, handleChange } = useInput("");
-  const { inputValid } = useValidation(value, VALIDATE.EMPTY);
   const clases = useStyles();
   return (
     <TextField
@@ -16,7 +15,9 @@ const Input = ({ handleAddTodo }) => {
       variant="outlined"
       color="primary"
       inputProps={{ maxLength: 25, value: value, placeholder: "I want to ..." }}
-      onKeyPress={(e) => handleAddTodo(e, inputValid, value, setValue)}
+      onKeyPress={(e) =>
+        handleAddTodo(e, value, setValue) && setValue("")
+      }
       onChange={(e) => handleChange(e)}
       onBlur={() => setValue("")}
     />

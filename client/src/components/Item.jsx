@@ -1,5 +1,5 @@
 import { IconButton, Paper, TextField, Typography } from "@material-ui/core";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { VALIDATE } from "../constants";
 import { useInput } from "../hooks/input.hook";
 import { useValidation } from "../hooks/validation.hook";
@@ -9,7 +9,6 @@ import useStyles from "./Item.styles";
 
 const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
   const { value, setValue, handleChange } = useInput(todo.text);
-  const { inputValid } = useValidation(value, VALIDATE.EMPTY);
   const [visibleEdit, setVisibleEdit] = useState(false);
 
   useEffect(() => {
@@ -42,10 +41,10 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
               size="small"
               variant="outlined"
               autoFocus={true}
-              inputProps={{ maxLength: 25, value: value }}
+              inputProps={{ maxLength: 45, value: value }}
               onChange={(e) => handleChange(e)}
               onKeyDown={(e) =>
-                handleEdit(e, todo, value, inputValid) && setVisibleEdit(false)
+                handleEdit(e, todo, value) && setVisibleEdit(false)
               }
               onBlur={() => handleBlur()}
             />

@@ -1,22 +1,11 @@
 import { useMemo, useState } from "react";
 
-const usePagination = (rowsVisibleCount, filterBy, typeSort, array) => {
+const usePagination = (rowsVisibleCount, todos) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const selectTodos = (array) => {
-    if (filterBy === 1) return array.filter((_) => true);
-    if (filterBy === 2) return array.filter((item) => item.done);
-    if (filterBy === 3) return array.filter((item) => !item.done);
-  };
 
-  const sortTodos = (array) =>
-    typeSort
-      ? array.sort((a, b) => (a.date < b.date ? 1 : -1))
-      : array.sort((a, b) => (a.date > b.date ? 1 : -1));
-  
-  const todos = sortTodos(selectTodos(array))
-  const resTodos = sortTodos(selectTodos(array)).slice(
-    (currentPage - 1) * 5,
-    currentPage * 5
+  const resTodos = todos.slice(
+    (currentPage - 1) * rowsVisibleCount,
+    currentPage * rowsVisibleCount
   );
 
   const pageCount = useMemo(() => {
