@@ -1,7 +1,5 @@
-import { TextField } from "@material-ui/core";
-
 import { useInput } from "../hooks/input.hook";
-
+import { TextField } from "@material-ui/core";
 import useStyles from "./Input.styles";
 
 const Input = ({ handleAddTodo }) => {
@@ -15,9 +13,7 @@ const Input = ({ handleAddTodo }) => {
       variant="outlined"
       color="primary"
       inputProps={{ maxLength: 25, value: value, placeholder: "I want to ..." }}
-      onKeyPress={(e) =>
-        handleAddTodo(e, value, setValue) && setValue("")
-      }
+      onKeyPress={(e) => handleAddTodo(e, value, setValue) && setValue("")}
       onChange={(e) => handleChange(e)}
       onBlur={() => setValue("")}
     />
