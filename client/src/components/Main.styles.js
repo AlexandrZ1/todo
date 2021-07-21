@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     borderRadius: '10px',
+    userSelect: 'none',
   },
   list: {
     width: '80%',

@@ -34,7 +34,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
   const clases = useStyles()
 
   return (
-    <Grow in={!!todo}>
+    <Grow in={true}>
       <Paper elevation={3} className={clases.container}>
         <div className={clases.item}>
           <IconButton onClick={() => handleDone(todo)}>

@@ -97,9 +97,9 @@ const Main = () => {
         name: value,
         done: false,
       })
+      setSortBy(QUERY_PARAMS.asc)
       setFilterBy(QUERY_PARAMS.all)
       setCurrentPage(1)
-      setSortBy(QUERY_PARAMS.asc)
       await getTodos()
       setAlertText({ error: false, text: 'Task created' })
     } catch (error) {
