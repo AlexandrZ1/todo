@@ -1,12 +1,11 @@
-import { Paper, Typography, CircularProgress } from '@material-ui/core'
+import { CircularProgress, Paper, Typography } from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 import Pagination from '@material-ui/lab/Pagination'
 import { useEffect, useState } from 'react'
-
 import axios from '../api/index'
+import { QUERY_PARAMS } from '../constants/constants'
 import usePagination from '../hooks/pagination.hook'
 import { getSortParams } from '../utils/generatorParams'
-
 import Input from './Input'
 import Item from './Item'
 import useStyles from './Main.styles'
@@ -15,11 +14,11 @@ import Sort from './Sort'
 const Main = () => {
   const clases = useStyles()
   const [todos, setTodos] = useState([])
-  const [filterBy, setFilterBy] = useState(1) //
-  const [typeSort, setTypeSort] = useState(true) //
+  const [filterBy, setFilterBy] = useState(QUERY_PARAMS.all)
+  const [sortBy, setSortBy] = useState(QUERY_PARAMS.asc)
   const [loading, setLoading] = useState(false)
   const [alertText, setAlertText] = useState({ error: false, text: '' })
-  console.log(alertText)
+  const rowsVisibleCount = 5
   const {
     pages,
     showPagination,
@@ -27,13 +26,13 @@ const Main = () => {
     currentPage,
     setCurrentPage,
     resTodos,
-  } = usePagination(5, todos) //
-  console.log(11111111)
+  } = usePagination(rowsVisibleCount, todos)
+
   const getTodos = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('v1/tasks/4', {
-        params: getSortParams(filterBy, typeSort),
+      const response = await axios.get('tasks/4', {
+        params: getSortParams(filterBy, sortBy),
       })
       setLoading(false)
       setTodos(
@@ -56,7 +55,7 @@ const Main = () => {
   const handleEdit = async (todoId, value) => {
     try {
       setLoading(true)
-      await axios.patch(`v1/task/4/${todoId}`, {
+      await axios.patch(`task/4/${todoId}`, {
         name: value,
       })
       setAlertText({ error: false, text: 'Task edited' })
@@ -70,7 +69,7 @@ const Main = () => {
   const handleDone = async (todo) => {
     try {
       setLoading(true)
-      await axios.patch(`v1/task/4/${todo.id}`, {
+      await axios.patch(`task/4/${todo.id}`, {
         done: !todo.done,
       })
       getTodos()
@@ -84,7 +83,7 @@ const Main = () => {
   const handleDelete = async (todo) => {
     try {
       setLoading(true)
-      await axios.delete(`v1/task/4/${todo.id}`)
+      await axios.delete(`task/4/${todo.id}`)
       getTodos()
       setAlertText({ error: false, text: 'Task deleted' })
     } catch (error) {
@@ -96,13 +95,13 @@ const Main = () => {
   const handleAddTodo = async (value) => {
     try {
       setLoading(true)
-      await axios.post('v1/task/4', {
+      await axios.post('task/4', {
         name: value,
         done: false,
       })
-      setFilterBy(1)
+      setFilterBy(QUERY_PARAMS.all)
       setCurrentPage(1)
-      setTypeSort(true)
+      setSortBy(QUERY_PARAMS.asc)
       getTodos()
       setAlertText({ error: false, text: 'Task created' })
     } catch (error) {
@@ -119,20 +118,18 @@ const Main = () => {
   //---------------------------Effects-------------------------------
 
   useEffect(() => {
-    console.log('useffect filters')
     getTodos()
-  }, [filterBy, typeSort])
+  }, [filterBy, sortBy])
 
   useEffect(() => {
-    console.log('useffect pagination')
-
     if (pageCount < currentPage) {
       setCurrentPage(pageCount)
     }
   }, [pages])
 
+  // useEffect(() => {}, [currentPage])
+
   useEffect(() => {
-    console.log('useffect filterby only')
     setCurrentPage(1)
   }, [filterBy])
 
@@ -148,19 +145,19 @@ const Main = () => {
       </Typography>
 
       <Input handleAddTodo={handleAddTodo} />
-      {/* {alertText.text && (
+      {alertText.text && (
         <Alert
           className={clases.alert}
           onClose={handleCloseAlert}
           severity={alertText.error ? 'error' : 'success'}>
-          {alertText}
+          {alertText.text}
         </Alert>
-      )} */}
+      )}
       <Sort
         setFilterBy={setFilterBy}
         filterBy={filterBy}
-        setTypeSort={setTypeSort}
-        typeSort={typeSort}
+        setSortBy={setSortBy}
+        sortBy={sortBy}
       />
       <div className={clases.list}>
         {resTodos.map((item) => (
@@ -179,7 +176,7 @@ const Main = () => {
           color='primary'
           count={pageCount}
           page={currentPage}
-          onChange={(value) => setCurrentPage(value)}
+          onChange={(e, value) => setCurrentPage(value)}
           showFirstButton
           showLastButton
           hideNextButton={true}
