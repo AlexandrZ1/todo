@@ -111,7 +111,7 @@ const Main = () => {
 
   useEffect(() => {
     getTodos()
-  }, [])
+  }, [filterBy, sortBy])
 
   useEffect(() => {
     setCurrentPage(1)
