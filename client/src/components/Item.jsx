@@ -1,4 +1,10 @@
-import { IconButton, Paper, TextField, Typography } from '@material-ui/core'
+import {
+  Grow,
+  IconButton,
+  Paper,
+  TextField,
+  Typography,
+} from '@material-ui/core'
 import CheckCircleOutlineTwoToneIcon from '@material-ui/icons/CheckCircleOutlineTwoTone'
 import DeleteOutlineTwoToneIcon from '@material-ui/icons/DeleteOutlineTwoTone'
 import { useEffect, useState } from 'react'
@@ -28,41 +34,49 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
   const clases = useStyles()
 
   return (
-    <Paper elevation={3} className={clases.container}>
-      <div className={clases.item}>
-        <IconButton onClick={() => handleDone(todo)}>
-          <CheckCircleOutlineTwoToneIcon
-            className={todo.done ? clases.success : ''}
-            color='secondary'
-          />
-        </IconButton>
-        <div className={clases.text} onClick={() => setVisibleEdit(true)}>
-          {visibleEdit && (
-            <TextField
-              className={clases.input}
-              size='small'
-              variant='outlined'
-              autoFocus={true}
-              inputProps={{ maxLength: 45, value: value }}
-              onChange={(e) => handleChange(e)}
-              onKeyDown={(e) => handleOnKeyDown(e)}
-              onBlur={() => handleBlur()}
+    <Grow in={!!todo}>
+      <Paper elevation={3} className={clases.container}>
+        <div className={clases.item}>
+          <IconButton onClick={() => handleDone(todo)}>
+            <CheckCircleOutlineTwoToneIcon
+              className={todo.done ? clases.success : ''}
+              color='secondary'
             />
-          )}
-          {!visibleEdit && <Typography>{todo.text}</Typography>}
+          </IconButton>
+          <div className={clases.text} onClick={() => setVisibleEdit(true)}>
+            {visibleEdit && (
+              <Grow in={visibleEdit}>
+                <TextField
+                  className={clases.input}
+                  size='small'
+                  variant='outlined'
+                  autoFocus={true}
+                  inputProps={{ maxLength: 45, value: value }}
+                  onChange={(e) => handleChange(e)}
+                  onKeyDown={(e) => handleOnKeyDown(e)}
+                  onBlur={() => handleBlur()}
+                />
+              </Grow>
+            )}
+            {!visibleEdit && (
+              <Grow in={!visibleEdit}>
+                <Typography>{todo.text}</Typography>
+              </Grow>
+            )}
+          </div>
+          <Typography>
+            {new Date(todo.date).toLocaleDateString('ru-RU', {
+              year: '2-digit',
+              month: '2-digit',
+              day: '2-digit',
+            })}
+          </Typography>
+          <IconButton onClick={() => handleDelete(todo)}>
+            <DeleteOutlineTwoToneIcon className={clases.delete} />
+          </IconButton>
         </div>
-        <Typography>
-          {new Date(todo.date).toLocaleDateString('ru-RU', {
-            year: '2-digit',
-            month: '2-digit',
-            day: '2-digit',
-          })}
-        </Typography>
-        <IconButton onClick={() => handleDelete(todo)}>
-          <DeleteOutlineTwoToneIcon className={clases.delete} />
-        </IconButton>
-      </div>
-    </Paper>
+      </Paper>
+    </Grow>
   )
 }
 

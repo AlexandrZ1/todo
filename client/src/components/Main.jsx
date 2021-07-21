@@ -1,4 +1,10 @@
-import { CircularProgress, Paper, Typography } from '@material-ui/core'
+import {
+  CircularProgress,
+  Grow,
+  Paper,
+  Slide,
+  Typography,
+} from '@material-ui/core'
 import Alert from '@material-ui/lab/Alert'
 import Pagination from '@material-ui/lab/Pagination'
 import { useEffect, useState } from 'react'
@@ -118,57 +124,63 @@ const Main = () => {
   }, [filterBy])
 
   return (
-    <Paper elevation={3} className={classes.main}>
-      {loading && (
-        <div className={classes.loader}>
-          <CircularProgress color='inherit' disableShrink />
-        </div>
-      )}
-      <Typography className={classes.head} variant='h3'>
-        ToDo
-      </Typography>
+    <Grow in={true}>
+      <Paper elevation={3} className={classes.main}>
+        {loading && (
+          <div className={classes.loader}>
+            <CircularProgress color='inherit' disableShrink />
+          </div>
+        )}
+        <Typography className={classes.head} variant='h3'>
+          ToDo
+        </Typography>
 
-      <Input handleAddTodo={handleAddTodo} />
-      {alertText.text && (
-        <Alert
-          className={classes.alert}
-          onClose={handleCloseAlert}
-          severity={alertText.error ? 'error' : 'success'}>
-          {alertText.text}
-        </Alert>
-      )}
-      <Sort
-        setFilterBy={setFilterBy}
-        filterBy={filterBy}
-        setSortBy={setSortBy}
-        sortBy={sortBy}
-      />
-      <div className={classes.list}>
-        {resTodos.map((item) => (
-          <Item
-            key={item.id}
-            todo={item}
-            handleDelete={handleDelete}
-            handleDone={handleDone}
-            handleEdit={handleEdit}
-          />
-        ))}
-      </div>
-      {showPagination && (
-        <Pagination
-          className={classes.pagination}
-          color='primary'
-          count={pageCount}
-          page={currentPage}
-          onChange={(e, value) => setCurrentPage(value)}
-          showFirstButton
-          showLastButton
-          hideNextButton={true}
-          hidePrevButton={true}
-          shape='rounded'
+        <Input handleAddTodo={handleAddTodo} />
+
+        <Grow in={alertText.text}>
+          <Alert
+            className={classes.alert}
+            onClose={handleCloseAlert}
+            severity={alertText.error ? 'error' : 'success'}>
+            {alertText.text}
+          </Alert>
+        </Grow>
+
+        <Sort
+          setFilterBy={setFilterBy}
+          filterBy={filterBy}
+          setSortBy={setSortBy}
+          sortBy={sortBy}
         />
-      )}
-    </Paper>
+        <div className={classes.list}>
+          {resTodos.map((item) => (
+            <Item
+              key={item.id}
+              todo={item}
+              handleDelete={handleDelete}
+              handleDone={handleDone}
+              handleEdit={handleEdit}
+            />
+          ))}
+        </div>
+        {showPagination && (
+          <Slide direction='up' in={showPagination}>
+            <Pagination
+              className={classes.pagination}
+              color='primary'
+              count={pageCount}
+              page={currentPage}
+              onChange={(e, value) => setCurrentPage(value)}
+              showFirstButton
+              showLastButton
+              hideNextButton={true}
+              hidePrevButton={true}
+              shape='rounded'
+            />
+          </Slide>
+        )}
+      </Paper>
+    </Grow>
   )
 }
 

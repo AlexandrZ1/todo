@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
     height: '55%',
   },
   head: {
-    flex: '0 0 15%',
+    flex: '0 0 10%',
   },
   pagination: {
     flexGrow: '1',
