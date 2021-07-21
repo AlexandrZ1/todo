@@ -12,29 +12,20 @@ import useStyles from './Main.styles'
 import Sort from './Sort'
 
 const Main = () => {
-  const clases = useStyles()
+  const classes = useStyles()
   const [todos, setTodos] = useState([])
   const [filterBy, setFilterBy] = useState(QUERY_PARAMS.all)
   const [sortBy, setSortBy] = useState(QUERY_PARAMS.asc)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [alertText, setAlertText] = useState({ error: false, text: '' })
   const rowsVisibleCount = 5
-  const {
-    pages,
-    showPagination,
-    pageCount,
-    currentPage,
-    setCurrentPage,
-    resTodos,
-  } = usePagination(rowsVisibleCount, todos)
-
+  const { showPagination, pageCount, currentPage, setCurrentPage, resTodos } =
+    usePagination(rowsVisibleCount, todos)
   const getTodos = async () => {
     try {
-      setLoading(true)
       const response = await axios.get('tasks/4', {
         params: getSortParams(filterBy, sortBy),
       })
-      setLoading(false)
       setTodos(
         response.data.map((todo) => {
           return {
@@ -45,6 +36,7 @@ const Main = () => {
           }
         })
       )
+      setLoading(false)
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
       setLoading(false)
@@ -62,8 +54,8 @@ const Main = () => {
       await getTodos()
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleDone = async (todo) => {
@@ -76,8 +68,8 @@ const Main = () => {
       setAlertText({ error: false, text: 'Task updated' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleDelete = async (todo) => {
@@ -88,8 +80,8 @@ const Main = () => {
       setAlertText({ error: false, text: 'Task deleted' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleAddTodo = async (value) => {
@@ -106,8 +98,8 @@ const Main = () => {
       setAlertText({ error: false, text: 'Task created' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const handleCloseAlert = () => {
@@ -119,35 +111,27 @@ const Main = () => {
 
   useEffect(() => {
     getTodos()
-  }, [filterBy, sortBy])
-
-  useEffect(() => {
-    if (pageCount < currentPage) {
-      setCurrentPage(pageCount)
-    }
-  }, [pages])
-
-  // useEffect(() => {}, [currentPage])
+  }, [])
 
   useEffect(() => {
     setCurrentPage(1)
   }, [filterBy])
 
   return (
-    <Paper elevation={3} className={clases.main}>
+    <Paper elevation={3} className={classes.main}>
       {loading && (
-        <div className={clases.loader}>
-          <CircularProgress color='' disableShrink />
+        <div className={classes.loader}>
+          <CircularProgress color='inherit' disableShrink />
         </div>
       )}
-      <Typography className={clases.head} variant='h3'>
+      <Typography className={classes.head} variant='h3'>
         ToDo
       </Typography>
 
       <Input handleAddTodo={handleAddTodo} />
       {alertText.text && (
         <Alert
-          className={clases.alert}
+          className={classes.alert}
           onClose={handleCloseAlert}
           severity={alertText.error ? 'error' : 'success'}>
           {alertText.text}
@@ -159,7 +143,7 @@ const Main = () => {
         setSortBy={setSortBy}
         sortBy={sortBy}
       />
-      <div className={clases.list}>
+      <div className={classes.list}>
         {resTodos.map((item) => (
           <Item
             key={item.id}
@@ -172,7 +156,7 @@ const Main = () => {
       </div>
       {showPagination && (
         <Pagination
-          className={clases.pagination}
+          className={classes.pagination}
           color='primary'
           count={pageCount}
           page={currentPage}

@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 const usePagination = (rowsVisibleCount, todos) => {
   const [currentPage, setCurrentPage] = useState(1)
@@ -19,6 +19,12 @@ const usePagination = (rowsVisibleCount, todos) => {
   const showPagination = useMemo(() => {
     return todos.length > rowsVisibleCount
   }, [todos.length, rowsVisibleCount])
+
+  useEffect(() => {
+    if (pageCount < currentPage) {
+      setCurrentPage(pageCount)
+    }
+  }, [pages])
 
   return {
     pages,

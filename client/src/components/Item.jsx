@@ -32,7 +32,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
       <div className={clases.item}>
         <IconButton onClick={() => handleDone(todo)}>
           <CheckCircleOutlineTwoToneIcon
-            className={todo.done && clases.success}
+            className={todo.done ? clases.success : ''}
             color='secondary'
           />
         </IconButton>

@@ -7,21 +7,21 @@ import useStyles from './Sort.styles'
 const Sort = ({ filterBy, setFilterBy, sortBy, setSortBy }) => {
   const buttons = ['All', 'Done', 'UnDone']
   const params = [QUERY_PARAMS.all, QUERY_PARAMS.done, QUERY_PARAMS.undone]
-  const clases = useStyles()
+  const classes = useStyles()
   return (
-    <div className={clases.sort}>
+    <div className={classes.sort}>
       <ButtonGroup color='secondary' aria-label='outlined primary button group'>
         {buttons.map((item, i) => (
           <Button
-            key={item.id}
+            key={i}
             onClick={() => setFilterBy(params[i])}
-            color={filterBy === params[i] && 'primary'}
+            color={filterBy === params[i] ? 'primary' : 'inherit'}
             variant='contained'>
             {item}
           </Button>
         ))}
       </ButtonGroup>
-      <div className={clases.sorting_date}>
+      <div className={classes.sorting_date}>
         <Typography>Sort by Date</Typography>
         <IconButton
           onClick={() =>

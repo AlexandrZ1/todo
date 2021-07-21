@@ -4,7 +4,7 @@ import useStyles from './Input.styles'
 
 const Input = ({ handleAddTodo }) => {
   const { value, setValue, handleChange } = useInput('')
-  const clases = useStyles()
+  const classes = useStyles()
   const handleOnKeyPress = async (e) => {
     if (e.key === 'Enter') {
       await handleAddTodo(value)
@@ -13,7 +13,7 @@ const Input = ({ handleAddTodo }) => {
   }
   return (
     <TextField
-      className={clases.input}
+      className={classes.input}
       autoComplete='off'
       size='small'
       variant='outlined'
