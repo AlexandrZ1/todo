@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.css": "/todo/static/css/main.08117857.chunk.css",
-    "main.js": "/todo/static/js/main.c45c76e1.chunk.js",
-    "main.js.map": "/todo/static/js/main.c45c76e1.chunk.js.map",
-    "runtime-main.js": "/todo/static/js/runtime-main.0056e30d.js",
-    "runtime-main.js.map": "/todo/static/js/runtime-main.0056e30d.js.map",
-    "static/js/2.872f49db.chunk.js": "/todo/static/js/2.872f49db.chunk.js",
-    "static/js/2.872f49db.chunk.js.map": "/todo/static/js/2.872f49db.chunk.js.map",
-    "static/js/3.311149dc.chunk.js": "/todo/static/js/3.311149dc.chunk.js",
-    "static/js/3.311149dc.chunk.js.map": "/todo/static/js/3.311149dc.chunk.js.map",
+    "main.css": "/todo/static/css/main.7f521f56.chunk.css",
+    "main.js": "/todo/static/js/main.5dce4229.chunk.js",
+    "main.js.map": "/todo/static/js/main.5dce4229.chunk.js.map",
+    "runtime-main.js": "/todo/static/js/runtime-main.05e15480.js",
+    "runtime-main.js.map": "/todo/static/js/runtime-main.05e15480.js.map",
+    "static/js/2.b1b306a6.chunk.js": "/todo/static/js/2.b1b306a6.chunk.js",
+    "static/js/2.b1b306a6.chunk.js.map": "/todo/static/js/2.b1b306a6.chunk.js.map",
+    "static/js/3.92395230.chunk.js": "/todo/static/js/3.92395230.chunk.js",
+    "static/js/3.92395230.chunk.js.map": "/todo/static/js/3.92395230.chunk.js.map",
     "index.html": "/todo/index.html",
-    "static/css/main.08117857.chunk.css.map": "/todo/static/css/main.08117857.chunk.css.map",
-    "static/js/2.872f49db.chunk.js.LICENSE.txt": "/todo/static/js/2.872f49db.chunk.js.LICENSE.txt"
+    "static/css/main.7f521f56.chunk.css.map": "/todo/static/css/main.7f521f56.chunk.css.map",
+    "static/js/2.b1b306a6.chunk.js.LICENSE.txt": "/todo/static/js/2.b1b306a6.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.0056e30d.js",
-    "static/js/2.872f49db.chunk.js",
-    "static/css/main.08117857.chunk.css",
-    "static/js/main.c45c76e1.chunk.js"
+    "static/js/runtime-main.05e15480.js",
+    "static/js/2.b1b306a6.chunk.js",
+    "static/css/main.7f521f56.chunk.css",
+    "static/js/main.5dce4229.chunk.js"
   ]
 }
