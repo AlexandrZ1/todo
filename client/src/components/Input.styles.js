@@ -1,9 +1,9 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   input: {
-    width: "55%",
+    width: '55%',
   },
-}));
+}))
 
-export default useStyles;
+export default useStyles

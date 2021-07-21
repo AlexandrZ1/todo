@@ -1,24 +1,24 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState } from 'react'
 
 const usePagination = (rowsVisibleCount, todos) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1)
 
   const resTodos = todos.slice(
     (currentPage - 1) * rowsVisibleCount,
     currentPage * rowsVisibleCount
-  );
+  )
 
   const pageCount = useMemo(() => {
-    return Math.ceil(todos.length / rowsVisibleCount);
-  }, [todos.length, rowsVisibleCount]);
+    return Math.ceil(todos.length / rowsVisibleCount)
+  }, [todos.length, rowsVisibleCount])
 
   const pages = useMemo(() => {
-    return Array.from(new Array(pageCount), (_, k) => k + 1);
-  }, [pageCount]);
+    return Array.from(new Array(pageCount), (_, k) => k + 1)
+  }, [pageCount])
 
   const showPagination = useMemo(() => {
-    return todos.length > rowsVisibleCount;
-  }, [todos.length, rowsVisibleCount]);
+    return todos.length > rowsVisibleCount
+  }, [todos.length, rowsVisibleCount])
 
   return {
     pages,
@@ -27,7 +27,7 @@ const usePagination = (rowsVisibleCount, todos) => {
     currentPage,
     setCurrentPage,
     resTodos,
-  };
-};
+  }
+}
 
-export default usePagination;
+export default usePagination

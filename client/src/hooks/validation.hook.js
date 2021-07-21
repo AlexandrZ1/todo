@@ -1,28 +1,28 @@
-import { useEffect, useState } from "react";
-import { VALIDATE } from "../constants";
+import { useEffect, useState } from 'react'
+import { VALIDATE } from '../constants'
 
 export const useValidation = (value, validation) => {
-  const [isEmpty, setEmpty] = useState(true);
-  const [inputValid, setInputValid] = useState(false);
+  const [isEmpty, setEmpty] = useState(true)
+  const [inputValid, setInputValid] = useState(false)
 
   useEffect(() => {
     switch (validation) {
       case VALIDATE.EMPTY:
-        value ? setEmpty(false) : setEmpty(true);
-        break;
+        value ? setEmpty(false) : setEmpty(true)
+        break
       default:
     }
-  }, [value]);
+  }, [value])
 
   useEffect(() => {
     if (isEmpty) {
-      setInputValid(false);
+      setInputValid(false)
     } else {
-      setInputValid(true);
+      setInputValid(true)
     }
-  }, [isEmpty]);
+  }, [isEmpty])
   return {
     isEmpty,
     inputValid,
-  };
-};
+  }
+}

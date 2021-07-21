@@ -1,10 +1,10 @@
-import {render,screen} from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 
 import Main from '../components/Main'
 
-describe('Main component',()=>{
-    test('Render component Main',()=>{
-        render(<Main/>)
-        expect(screen.queryAllByTestId('main-child')).not.toBeNull()
-    })
+describe('Main component', () => {
+  test('Render component Main', () => {
+    render(<Main />)
+    expect(screen.queryAllByTestId('main-child')).not.toBeNull()
+  })
 })
