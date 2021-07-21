@@ -59,7 +59,7 @@ const Main = () => {
         name: value,
       })
       setAlertText({ error: false, text: 'Task edited' })
-      getTodos()
+      await getTodos()
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
     }
@@ -72,7 +72,7 @@ const Main = () => {
       await axios.patch(`task/4/${todo.id}`, {
         done: !todo.done,
       })
-      getTodos()
+      await getTodos()
       setAlertText({ error: false, text: 'Task updated' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
@@ -84,7 +84,7 @@ const Main = () => {
     try {
       setLoading(true)
       await axios.delete(`task/4/${todo.id}`)
-      getTodos()
+      await getTodos()
       setAlertText({ error: false, text: 'Task deleted' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
@@ -102,7 +102,7 @@ const Main = () => {
       setFilterBy(QUERY_PARAMS.all)
       setCurrentPage(1)
       setSortBy(QUERY_PARAMS.asc)
-      getTodos()
+      await getTodos()
       setAlertText({ error: false, text: 'Task created' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
