@@ -115,6 +115,7 @@ const Main = () => {
   }
 
   useEffect(() => {
+    setLoading(true)
     getTodos()
   }, [filterBy, sortBy])
 
