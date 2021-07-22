@@ -57,7 +57,6 @@ const Main = () => {
         name: value,
       })
       setAlertText({ error: false, text: 'Task edited' })
-      await getTodos()
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
       setLoading(false)
@@ -70,7 +69,6 @@ const Main = () => {
       await axios.patch(`task/4/${todo.id}`, {
         done: !todo.done,
       })
-      await getTodos()
       setAlertText({ error: false, text: 'Task updated' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
@@ -82,7 +80,6 @@ const Main = () => {
     try {
       setLoading(true)
       await axios.delete(`task/4/${todo.id}`)
-      await getTodos()
       setAlertText({ error: false, text: 'Task deleted' })
     } catch (error) {
       setAlertText({ error: true, text: error.response.data.message })
@@ -99,7 +96,6 @@ const Main = () => {
       })
       setSortBy(QUERY_PARAMS.asc)
       setFilterBy(QUERY_PARAMS.all)
-      setCurrentPage(1)
       await getTodos()
       setAlertText({ error: false, text: 'Task created' })
     } catch (error) {
@@ -115,15 +111,10 @@ const Main = () => {
   }
 
   useEffect(() => {
-    if (currentPage <= 1) {
-      setLoading(true)
-      getTodos()
-    }
-  }, [filterBy, sortBy])
-
-  useEffect(() => {
+    setLoading(true)
+    getTodos()
     setCurrentPage(1)
-  }, [filterBy])
+  }, [filterBy, sortBy])
 
   return (
     <Grow in={true}>
@@ -139,9 +130,9 @@ const Main = () => {
           ToDo
         </Typography>
 
-        <Input addTodo={addTodo} />
+        <Input addTodo={addTodo} getTodos={getTodos} />
 
-        <Grow in={alertText.text}>
+        <Grow in={!!alertText.text}>
           <Alert
             className={classes.alert}
             variant='filled'
@@ -165,6 +156,7 @@ const Main = () => {
               deleteTodo={deleteTodo}
               completeTodo={completeTodo}
               editTodo={editTodo}
+              getTodos={getTodos}
             />
           ))}
         </div>

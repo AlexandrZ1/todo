@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { useInput } from '../hooks/input.hook'
 import useStyles from './Item.styles'
 
-const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
+const Item = ({ todo, deleteTodo, completeTodo, editTodo, getTodos }) => {
   const { value, setValue, handleChange } = useInput(todo.text)
   const [visibleEdit, setVisibleEdit] = useState(false)
   const [isDeleting, setIsDelitihg] = useState(false)
@@ -27,7 +27,7 @@ const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
     if (!isDeleting) {
       setIsDelitihg(true)
       await deleteTodo(todo)
-      setIsDelitihg(false)
+      await getTodos()
     }
   }
 
@@ -36,12 +36,14 @@ const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
       setIsUpdating(true)
       await completeTodo(todo)
       setIsUpdating(false)
+      await getTodos()
     }
   }
 
   const handleOnKeyDown = async (e) => {
     if (e.key === typesKey.enter && todo.text !== value) {
       await editTodo(todo.id, value)
+      await getTodos()
       setVisibleEdit(false)
     } else if (e.key === typesKey.escape) setVisibleEdit(false)
   }
@@ -54,7 +56,7 @@ const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
     <Grow in={true}>
       <Paper elevation={3} className={clases.container}>
         <div className={clases.item}>
-          <IconButton onClick={() => handleComplete()} disabled={isUpdating}>
+          <IconButton onClick={() => handleComplete()}>
             <CheckCircleOutlineTwoToneIcon
               className={todo.done ? clases.success : ''}
               color='secondary'
@@ -88,7 +90,7 @@ const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
               day: '2-digit',
             })}
           </Typography>
-          <IconButton onClick={() => handleDelete()} disabled={isDeleting}>
+          <IconButton onClick={() => handleDelete()}>
             <DeleteOutlineTwoToneIcon className={clases.delete} />
           </IconButton>
         </div>
