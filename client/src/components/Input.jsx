@@ -5,12 +5,14 @@ import useStyles from './Input.styles'
 const Input = ({ handleAddTodo }) => {
   const { value, setValue, handleChange } = useInput('')
   const classes = useStyles()
+
   const handleOnKeyPress = async (e) => {
     if (e.key === 'Enter') {
       await handleAddTodo(value)
       setValue('')
     }
   }
+
   return (
     <TextField
       className={classes.input}
@@ -18,7 +20,7 @@ const Input = ({ handleAddTodo }) => {
       size='small'
       variant='outlined'
       color='primary'
-      inputProps={{ maxLength: 25, value: value, placeholder: 'I want to ...' }}
+      inputProps={{ maxLength: 45, value: value, placeholder: 'I want to ...' }}
       onKeyPress={(e) => handleOnKeyPress(e)}
       onChange={(e) => handleChange(e)}
       onBlur={() => setValue('')}

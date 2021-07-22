@@ -27,6 +27,7 @@ const Main = () => {
   const rowsVisibleCount = 5
   const { showPagination, pageCount, currentPage, setCurrentPage, resTodos } =
     usePagination(rowsVisibleCount, todos)
+
   const getTodos = async () => {
     try {
       const response = await axios.get('tasks/4', {
@@ -49,7 +50,6 @@ const Main = () => {
     }
   }
 
-  //---------------------------Handlers-------------------------------
   const handleEdit = async (todoId, value) => {
     try {
       setLoading(true)
@@ -113,7 +113,6 @@ const Main = () => {
       return { ...prevState, text: '' }
     })
   }
-  //---------------------------Effects-------------------------------
 
   useEffect(() => {
     getTodos()
@@ -140,6 +139,7 @@ const Main = () => {
         <Grow in={alertText.text}>
           <Alert
             className={classes.alert}
+            variant='filled'
             onClose={handleCloseAlert}
             severity={alertText.error ? 'error' : 'success'}>
             {alertText.text}

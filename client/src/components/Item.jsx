@@ -15,10 +15,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
   const { value, setValue, handleChange } = useInput(todo.text)
   const [visibleEdit, setVisibleEdit] = useState(false)
   const typesKey = { enter: 'Enter', escape: 'Escape' }
-
-  useEffect(() => {
-    setValue(todo.text)
-  }, [visibleEdit])
+  const clases = useStyles()
 
   const handleBlur = () => {
     setVisibleEdit(false)
@@ -31,7 +28,9 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
     } else if (e.key === typesKey.escape) setVisibleEdit(false)
   }
 
-  const clases = useStyles()
+  useEffect(() => {
+    setValue(todo.text)
+  }, [visibleEdit])
 
   return (
     <Grow in={true}>

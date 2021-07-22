@@ -8,6 +8,7 @@ const Sort = ({ filterBy, setFilterBy, sortBy, setSortBy }) => {
   const buttons = ['All', 'Done', 'UnDone']
   const params = [QUERY_PARAMS.all, QUERY_PARAMS.done, QUERY_PARAMS.undone]
   const classes = useStyles()
+
   return (
     <div className={classes.sort}>
       <ButtonGroup color='secondary' aria-label='outlined primary button group'>
