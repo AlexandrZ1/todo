@@ -29,16 +29,8 @@ const useStyles = makeStyles((theme) => ({
   },
   loader: {
     position: 'absolute',
-    width: '100%',
-    height: '100%',
-    opacity: '0.4',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     zIndex: '2',
-    top: '0',
-    left: '0',
-    borderRadius: '10px',
+    top: '50%',
   },
   alert: {
     marginTop: '5px',

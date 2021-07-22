@@ -2,13 +2,13 @@ import { useInput } from '../hooks/input.hook'
 import { TextField } from '@material-ui/core'
 import useStyles from './Input.styles'
 
-const Input = ({ handleAddTodo }) => {
+const Input = ({ addTodo }) => {
   const { value, setValue, handleChange } = useInput('')
   const classes = useStyles()
 
-  const handleOnKeyPress = async (e) => {
+  const handleAddTodo = async (e) => {
     if (e.key === 'Enter') {
-      await handleAddTodo(value)
+      await addTodo(value)
       setValue('')
     }
   }
@@ -21,7 +21,7 @@ const Input = ({ handleAddTodo }) => {
       variant='outlined'
       color='primary'
       inputProps={{ maxLength: 45, value: value, placeholder: 'I want to ...' }}
-      onKeyPress={(e) => handleOnKeyPress(e)}
+      onKeyPress={(e) => handleAddTodo(e)}
       onChange={(e) => handleChange(e)}
       onBlur={() => setValue('')}
     />

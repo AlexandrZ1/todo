@@ -50,7 +50,7 @@ const Main = () => {
     }
   }
 
-  const handleEdit = async (todoId, value) => {
+  const editTodo = async (todoId, value) => {
     try {
       setLoading(true)
       await axios.patch(`task/4/${todoId}`, {
@@ -64,7 +64,7 @@ const Main = () => {
     }
   }
 
-  const handleDone = async (todo) => {
+  const completeTodo = async (todo) => {
     try {
       setLoading(true)
       await axios.patch(`task/4/${todo.id}`, {
@@ -78,7 +78,7 @@ const Main = () => {
     }
   }
 
-  const handleDelete = async (todo) => {
+  const deleteTodo = async (todo) => {
     try {
       setLoading(true)
       await axios.delete(`task/4/${todo.id}`)
@@ -90,7 +90,7 @@ const Main = () => {
     }
   }
 
-  const handleAddTodo = async (value) => {
+  const addTodo = async (value) => {
     try {
       setLoading(true)
       await axios.post('task/4', {
@@ -115,8 +115,10 @@ const Main = () => {
   }
 
   useEffect(() => {
-    setLoading(true)
-    getTodos()
+    if (currentPage <= 1) {
+      setLoading(true)
+      getTodos()
+    }
   }, [filterBy, sortBy])
 
   useEffect(() => {
@@ -127,15 +129,17 @@ const Main = () => {
     <Grow in={true}>
       <Paper elevation={3} className={classes.main}>
         {loading && (
-          <div className={classes.loader}>
-            <CircularProgress color='inherit' disableShrink />
-          </div>
+          <CircularProgress
+            color='secondary'
+            disableShrink
+            className={classes.loader}
+          />
         )}
         <Typography className={classes.head} variant='h3'>
           ToDo
         </Typography>
 
-        <Input handleAddTodo={handleAddTodo} />
+        <Input addTodo={addTodo} />
 
         <Grow in={alertText.text}>
           <Alert
@@ -158,9 +162,9 @@ const Main = () => {
             <Item
               key={item.id}
               todo={item}
-              handleDelete={handleDelete}
-              handleDone={handleDone}
-              handleEdit={handleEdit}
+              deleteTodo={deleteTodo}
+              completeTodo={completeTodo}
+              editTodo={editTodo}
             />
           ))}
         </div>

@@ -11,9 +11,11 @@ import { useEffect, useState } from 'react'
 import { useInput } from '../hooks/input.hook'
 import useStyles from './Item.styles'
 
-const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
+const Item = ({ todo, deleteTodo, completeTodo, editTodo }) => {
   const { value, setValue, handleChange } = useInput(todo.text)
   const [visibleEdit, setVisibleEdit] = useState(false)
+  const [isDeleting, setIsDelitihg] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
   const typesKey = { enter: 'Enter', escape: 'Escape' }
   const clases = useStyles()
 
@@ -21,9 +23,25 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
     setVisibleEdit(false)
   }
 
+  const handleDelete = async () => {
+    if (!isDeleting) {
+      setIsDelitihg(true)
+      await deleteTodo(todo)
+      setIsDelitihg(false)
+    }
+  }
+
+  const handleComplete = async () => {
+    if (!isUpdating) {
+      setIsUpdating(true)
+      await completeTodo(todo)
+      setIsUpdating(false)
+    }
+  }
+
   const handleOnKeyDown = async (e) => {
     if (e.key === typesKey.enter && todo.text !== value) {
-      await handleEdit(todo.id, value)
+      await editTodo(todo.id, value)
       setVisibleEdit(false)
     } else if (e.key === typesKey.escape) setVisibleEdit(false)
   }
@@ -36,7 +54,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
     <Grow in={true}>
       <Paper elevation={3} className={clases.container}>
         <div className={clases.item}>
-          <IconButton onClick={() => handleDone(todo)}>
+          <IconButton onClick={() => handleComplete()} disabled={isUpdating}>
             <CheckCircleOutlineTwoToneIcon
               className={todo.done ? clases.success : ''}
               color='secondary'
@@ -70,7 +88,7 @@ const Item = ({ todo, handleDelete, handleDone, handleEdit }) => {
               day: '2-digit',
             })}
           </Typography>
-          <IconButton onClick={() => handleDelete(todo)}>
+          <IconButton onClick={() => handleDelete()} disabled={isDeleting}>
             <DeleteOutlineTwoToneIcon className={clases.delete} />
           </IconButton>
         </div>
